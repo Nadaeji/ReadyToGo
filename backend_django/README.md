@@ -1,6 +1,6 @@
 # 백엔드 아키텍쳐 (Django)
 
-## 프로젝트 구조
+## 프로젝트 핵심 구조
 
 ```
 backend_django/
@@ -14,10 +14,7 @@ backend_django/
 │   ├── models.py                 # 데이터베이스 모델 (Document, Conversation, Message, FAQ)
 │   ├── views.py                  # 기본 API (헬스체크, 국가/토픽 목록)
 │   ├── urls.py                   # core 앱 URL 라우팅
-│   ├── admin.py                  # Django Admin 설정
-│   └── management/commands/      # 커스텀 관리 명령어
-│       ├── index_pdfs.py        # PDF 문서 인덱싱 명령어
-│       └── migrate_from_fastapi.py  # FastAPI 데이터 마이그레이션
+│   └── admin.py                  # Django Admin 설정
 ├── chat/                          # 채팅 기능 (통합형)
 │   ├── views.py                  # 모든 채팅 로직 (API + 비즈니스 로직)
 │   ├── urls.py                   # 채팅 관련 URL 라우팅
@@ -27,10 +24,9 @@ backend_django/
 │   ├── llm.py                    # LLM 모델 통합 (OpenAI, Gemini, Phi-2)
 │   ├── rag.py                    # RAG 시스템 (ChromaDB + 번역)
 │   └── fine_tuning/              # 파인튜닝 관련 코드
-│       ├── main.py              # 파인튜닝 메인 스크립트
-│       ├── model_trainer.py     # 모델 학습기
+│       ├── finetuning_phi-2_v2.ipynb     # 파인튜닝 모델 학습
 │       ├── qa_pair_generator.py # QA 쌍 생성기
-│       └── inf_test.ipynb       # 파인튜닝 모델 로드
+│       └── inf_test.ipynb       # 파인튜닝 모델 로드 및 기동(추론테스트 포함)
 ├── data/                        
 │   └── vectors/                 
 │       ├── chroma.sqlite3       # ChromaDB 메타데이터
