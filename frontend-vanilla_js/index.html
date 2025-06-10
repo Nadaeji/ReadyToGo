@@ -137,9 +137,7 @@
                 <!-- 탭 네비게이션 -->
                 <nav class="flex items-center gap-1 bg-white dark:bg-gray-800 rounded-lg p-1 border border-gray-200 dark:border-gray-700 shadow-sm overflow-x-auto">
                     <button id="chatTab" class="tab-button active flex items-center gap-2 px-3 py-2 rounded-md font-medium text-sm transition-all whitespace-nowrap">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-                        </svg>
+                        <span class="text-sm">💬</span>
                         채팅
                     </button>
                     <button id="exchangeTab" class="tab-button flex items-center gap-2 px-3 py-2 rounded-md font-medium text-sm transition-all whitespace-nowrap">
@@ -155,12 +153,8 @@
                         항공권
                     </button>
                     <button id="checklistTab" class="tab-button flex items-center gap-2 px-3 py-2 rounded-md font-medium text-sm transition-all whitespace-nowrap">
-                        <span class="text-sm">✅</span>
+                        <span class="text-sm">📝</span>
                         체크리스트
-                    </button>
-                    <button id="communityTab" class="tab-button flex items-center gap-2 px-3 py-2 rounded-md font-medium text-sm transition-all whitespace-nowrap">
-                        <span class="text-sm">👥</span>
-                        커뮤니티
                     </button>
                 </nav>
 
@@ -171,8 +165,8 @@
                         <!-- FAQ 카드 영역 -->
                         <section id="faqSection" class="w-full hidden animate-fade-in">
                             <div class="flex items-center gap-2 mb-3">
-                                <div class="w-6 h-6 bg-accent-500 rounded-md flex items-center justify-center">
-                                    <span class="text-white text-xs">✨</span>
+                                <div class="w-6 h-6 rounded-md flex items-center justify-center">
+                                    <span class="text-white">🌟</span>
                                 </div>
                                 <h2 class="text-lg font-semibold text-gray-900 dark:text-white">추천 질문</h2>
                             </div>
@@ -285,8 +279,8 @@
                     <div id="checklistTabContent" class="tab-content hidden">
                         <section id="checklistSection" class="w-full animate-fade-in">
                             <div class="flex items-center gap-2 mb-4">
-                                <div class="w-6 h-6 bg-orange-500 rounded-md flex items-center justify-center">
-                                    <span class="text-white text-xs">✅</span>
+                                <div class="w-6 h-6 rounded-md flex items-center justify-center">
+                                    <span class="text-white">✅</span>
                                 </div>
                                 <h2 class="text-lg font-semibold text-gray-900 dark:text-white">여행 준비 체크리스트</h2>
                             </div>
@@ -336,6 +330,203 @@
             </div>
             <div id="sourcesList" class="space-y-2 max-h-96 overflow-y-auto custom-scrollbar">
                 <!-- 소스 목록이 여기에 동적으로 추가됩니다 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 체크리스트 폼 모달 -->
+    <div id="checklistFormModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm hidden animate-fade-in">
+        <div class="bg-white dark:bg-gray-800 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-xl border border-gray-200 dark:border-gray-700">
+            <div class="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                        <span class="w-6 h-6 bg-orange-500 rounded flex items-center justify-center text-white text-sm">✅</span>
+                        <span id="checklistFormTitle">새 체크리스트 만들기</span>
+                    </h3>
+                    <button id="closeChecklistFormModal" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <form id="checklistForm" class="p-6 space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">체크리스트 이름</label>
+                    <input type="text" id="checklistName" required 
+                           class="w-full px-3 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+                           placeholder="예: 일본 여행 준비 체크리스트">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">설명</label>
+                    <textarea id="checklistDescription" rows="3" 
+                              class="w-full px-3 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+                              placeholder="체크리스트에 대한 간단한 설명을 입력하세요"></textarea>
+                </div>
+                
+                <!-- 체크리스트 아이템들 -->
+                <div>
+                    <div class="flex justify-between items-center mb-3">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">체크리스트 항목</label>
+                        <button type="button" id="addChecklistItem" 
+                                class="bg-orange-500 hover:bg-orange-600 text-white px-3 py-1 rounded-md text-sm font-medium transition-colors flex items-center gap-1">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                            </svg>
+                            항목 추가
+                        </button>
+                    </div>
+                    <div id="checklistItems" class="space-y-3">
+                        <!-- 체크리스트 항목들이 여기에 동적으로 추가됩니다 -->
+                    </div>
+                </div>
+                
+                <div class="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
+                    <button type="button" id="cancelChecklistForm" 
+                            class="px-4 py-2 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg font-medium transition-colors">
+                        취소
+                    </button>
+                    <button type="submit" 
+                            class="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-medium transition-colors flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        저장하기
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 체크리스트 상세 모달 -->
+    <div id="checklistDetailModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm hidden animate-fade-in">
+        <div class="bg-white dark:bg-gray-800 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-xl border border-gray-200 dark:border-gray-700">
+            <div class="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 id="checklistDetailTitle" class="text-lg font-semibold text-gray-900 dark:text-white"></h3>
+                        <p id="checklistDetailDescription" class="text-sm text-gray-500 dark:text-gray-400 mt-1"></p>
+                    </div>
+                    <button id="closeChecklistDetailModal" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="p-6">
+                <div id="checklistDetailItems" class="space-y-3">
+                    <!-- 체크리스트 항목들이 여기에 렌더링됩니다 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 게시글 작성 모달 -->
+    <div id="postFormModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm hidden animate-fade-in">
+        <div class="bg-white dark:bg-gray-800 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-xl border border-gray-200 dark:border-gray-700">
+            <div class="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                        <span class="w-6 h-6 bg-purple-500 rounded flex items-center justify-center text-white text-sm">✍️</span>
+                        새 게시글 작성
+                    </h3>
+                    <button id="closePostFormModal" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <form id="postForm" class="p-6 space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">게시글 유형</label>
+                        <select id="postType" required 
+                                class="w-full px-3 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors">
+                            <option value="">유형을 선택하세요</option>
+                            <option value="review">여행 후기</option>
+                            <option value="question">질문</option>
+                            <option value="tip">여행 팁</option>
+                            <option value="info">정보 공유</option>
+                        </select>
+                    </div>
+                    <div id="ratingSection" class="hidden">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">평점</label>
+                        <div class="flex items-center gap-1">
+                            <div id="starRating" class="flex items-center gap-1">
+                                <button type="button" class="star-btn text-2xl text-gray-300 hover:text-yellow-500 transition-colors" data-rating="1">⭐</button>
+                                <button type="button" class="star-btn text-2xl text-gray-300 hover:text-yellow-500 transition-colors" data-rating="2">⭐</button>
+                                <button type="button" class="star-btn text-2xl text-gray-300 hover:text-yellow-500 transition-colors" data-rating="3">⭐</button>
+                                <button type="button" class="star-btn text-2xl text-gray-300 hover:text-yellow-500 transition-colors" data-rating="4">⭐</button>
+                                <button type="button" class="star-btn text-2xl text-gray-300 hover:text-yellow-500 transition-colors" data-rating="5">⭐</button>
+                            </div>
+                            <input type="hidden" id="postRating" value="0">
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">제목</label>
+                    <input type="text" id="postTitle" required 
+                           class="w-full px-3 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors"
+                           placeholder="게시글 제목을 입력하세요">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">내용</label>
+                    <textarea id="postContent" rows="8" required 
+                              class="w-full px-3 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors"
+                              placeholder="게시글 내용을 입력하세요"></textarea>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">작성자 이름</label>
+                        <input type="text" id="postAuthor" required 
+                               class="w-full px-3 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors"
+                               placeholder="작성자 이름">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">태그</label>
+                        <input type="text" id="postTags" 
+                               class="w-full px-3 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors"
+                               placeholder="태그를 쉼표로 구분하여 입력">
+                    </div>
+                </div>
+                
+                <div class="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
+                    <button type="button" id="cancelPostForm" 
+                            class="px-4 py-2 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg font-medium transition-colors">
+                        취소
+                    </button>
+                    <button type="submit" 
+                            class="px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white rounded-lg font-medium transition-colors flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                        </svg>
+                        게시글 작성
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 게시글 상세 모달 -->
+    <div id="postDetailModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm hidden animate-fade-in">
+        <div class="bg-white dark:bg-gray-800 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-xl border border-gray-200 dark:border-gray-700">
+            <div class="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">게시글 상세</h3>
+                    <button id="closePostDetailModal" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div id="postDetailContent" class="p-6">
+                <!-- 게시글 상세 내용이 여기에 렌더링됩니다 -->
             </div>
         </div>
     </div>

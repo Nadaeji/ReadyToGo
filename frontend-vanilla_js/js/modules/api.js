@@ -232,29 +232,26 @@ export class APIManager {
         return await this.call(url);
     }
 
-    async getEmbassyNotices(country = null, importance = null, limit = 10) {
-        let url = `/realtime/embassy-notices/?limit=${limit}`;
-        if (country) url += `&country=${country}`;
-        if (importance) url += `&importance=${importance}`;
-        return await this.call(url);
-    }
-
     async getFlightTrends(origin = 'ICN', destination = 'LAX') {
         return await this.call(`/realtime/flight-trends/?origin=${origin}&destination=${destination}`);
     }
 
-    // 체크리스트 API
-    async getChecklists(country = null, topic = null) {
-        let url = '/checklist/';
-        const params = new URLSearchParams();
-        if (country) params.append('country', country);
-        if (topic) params.append('topic', topic);
-        if (params.toString()) url += '?' + params.toString();
+    // 항공료 가격 트렌드 조회 (실제 백엔드 API)
+    async getFlightPriceTrends(origin = 'ICN', destination = 'NRT', date = null) {
+        let url = `/realtime/flight-price-trends/?origin=${origin}&destination=${destination}`;
+        if (date) {
+            url += `&date=${date}`;
+        }
         return await this.call(url);
     }
 
-    async getChecklistDetail(checklistId) {
-        return await this.call(`/checklist/${checklistId}/`);
+    // 체크리스트 API
+    async getChecklists(country = null) {
+        let url = '/checklist/';
+        const params = new URLSearchParams();
+        if (country) params.append('country', country);
+        if (params.toString()) url += '?' + params.toString();
+        return await this.call(url);
     }
 
     // 커뮤니티 API

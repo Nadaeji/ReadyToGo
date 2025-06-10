@@ -64,10 +64,11 @@ def get_flight_trends(request):
     try:
         origin = request.GET.get('origin', 'ICN')
         destination = request.GET.get('destination', 'LAX')
+        date = request.GET.get('date', '20250618')
         
         # 실시간 데이터 서비스에서 항공료 정보 가져오기
         service = RealtimeDataService()
-        flight_data = service.get_flight_price_trends(origin, destination)
+        flight_data = service.get_flight_price_trends(origin, destination, date)
         
         return Response(flight_data)
         
@@ -75,5 +76,26 @@ def get_flight_trends(request):
         logger.error(f"항공료 트렌드 조회 실패: {e}")
         return Response(
             {'error': 'Failed to fetch flight trends'}, 
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+@api_view(['GET'])
+def get_flight_price_trends(request):
+    """항공료 가격 트렌드 정보 조회 (실제 크롤링)"""
+    try:
+        origin = request.GET.get('origin', 'ICN')
+        destination = request.GET.get('destination', 'NRT')
+        date = request.GET.get('date')
+        
+        # 실시간 데이터 서비스에서 항공료 정보 가져오기
+        service = RealtimeDataService()
+        flight_data = service.get_flight_price_trends(origin, destination, date)
+        
+        return Response(flight_data)
+        
+    except Exception as e:
+        logger.error(f"항공료 가격 트렌드 조회 실패: {e}")
+        return Response(
+            {'error': 'Failed to fetch flight price trends'}, 
             status=status.HTTP_500_INTERNAL_SERVER_ERROR
         )

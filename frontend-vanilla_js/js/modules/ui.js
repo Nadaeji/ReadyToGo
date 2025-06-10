@@ -1,3 +1,5 @@
+import { NotionChecklistUI } from './checklist.js'
+
 // UI 렌더링 - 깔끔한 미니멀 스타일
 export class UIRenderer {
   constructor(state, dom, api) {
@@ -5,6 +7,7 @@ export class UIRenderer {
     this.dom = dom
     this.api = api
     this.documentSources = []
+    this.notionChecklist = new NotionChecklistUI(state, api)
     this.initDarkMode()
   }
 
@@ -675,11 +678,12 @@ export class UIRenderer {
 
   // 항공권 탭 렌더링
   async renderFlightTab() {
+    const container = document.getElementById("flightContent")
+    if (!container) return
+
     try {
       const country = this.state.get("country")
-      const container = document.getElementById("flightContent")
-      if (!container) return
-
+      
       if (!country) {
         container.innerHTML = `
           <div class="text-center p-8 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
@@ -692,34 +696,39 @@ export class UIRenderer {
         return
       }
 
-      // 항공권 정보 (임시 데이터)
-      const flightData = {
-        routes: [
-          {
-            from: "ICN",
-            to: this.getAirportCode(country),
-            airline: "대한항공",
-            price: Math.floor(Math.random() * 1000000) + 500000,
-            duration: "12시간 30분",
-            stops: 0,
-          },
-          {
-            from: "ICN",
-            to: this.getAirportCode(country),
-            airline: "아시아나항공",
-            price: Math.floor(Math.random() * 1000000) + 500000,
-            duration: "13시간 15분",
-            stops: 1,
-          },
-          {
-            from: "ICN",
-            to: this.getAirportCode(country),
-            airline: "에어프랑스",
-            price: Math.floor(Math.random() * 1000000) + 600000,
-            duration: "14시간 45분",
-            stops: 1,
-          },
-        ],
+      // 로딩 상태 표시
+      container.innerHTML = `
+        <div class="text-center p-8 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+            <div class="w-12 h-12 bg-indigo-500 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
+            </div>
+            <div class="text-gray-500 dark:text-gray-400 mb-4">항공권 정보를 불러오는 중...</div>
+        </div>
+      `
+
+      // 기본 날짜 설정 (오늘부터 1주일 후)
+      const defaultDate = 20250718
+      const selectedDate = this.state.get('flightDate') || defaultDate
+      
+      // 항공권 정보 조회 - 실제 백엔드 API 호출
+      const destinationCode = this.getDestinationCode(country)
+      let flightData
+      
+      try {
+        flightData = await this.api.getFlightPriceTrends('ICN', destinationCode, selectedDate)
+        // API 호출 성공 시 success 플래그가 없으면 추가
+        if (!flightData.hasOwnProperty('success')) {
+          flightData.success = true
+        }
+      } catch (error) {
+        console.error('항공권 정보 조회 실패:', error)
+        // 오류 시 기본 데이터 사용
+        flightData = {
+          success: false,
+          error: '항공권 정보를 불러올 수 없습니다.',
+          flights: [],
+          flight_count: 0
+        }
       }
 
       const html = `
@@ -731,7 +740,7 @@ export class UIRenderer {
                     </div>
                     <h3 class="text-base font-semibold text-gray-900 dark:text-white">항공편 검색</h3>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
                     <div>
                         <label class="text-sm font-medium text-gray-700 dark:text-gray-300">출발지</label>
                         <div class="mt-1 p-3 bg-gray-50 dark:bg-gray-700 rounded-md">
@@ -747,59 +756,137 @@ export class UIRenderer {
                         </div>
                     </div>
                     <div>
-                        <label class="text-sm font-medium text-gray-700 dark:text-gray-300">출발일</label>
-                        <div class="mt-1 p-3 bg-gray-50 dark:bg-gray-700 rounded-md">
-                            <div class="font-medium text-sm">${new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString()}</div>
-                            <div class="text-xs text-gray-500">1주일 후</div>
+                        <label class="text-sm font-medium text-gray-700 dark:text-gray-300" for="departureDate">출발일</label>
+                        <div class="mt-1">
+                            <input 
+                                type="date" 
+                                id="departureDate" 
+                                class="w-full px-3 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors text-sm"
+                                value="${selectedDate}"
+                                min="${new Date().toISOString().split('T')[0]}"
+                            />
+                        </div>
+                    </div>
+                    <div>
+                        <label class="text-sm font-medium text-gray-700 dark:text-gray-300" for="returnDate">복귀일 (선택)</label>
+                        <div class="mt-1">
+                            <input 
+                                type="date" 
+                                id="returnDate" 
+                                class="w-full px-3 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors text-sm"
+                                value=""
+                                min="${selectedDate}"
+                            />
                         </div>
                     </div>
                 </div>
+                <div class="mt-4 flex gap-2">
+                    <button 
+                        id="searchFlights" 
+                        class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-md font-medium transition-colors flex items-center gap-2 text-sm"
+                    >
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                        항공편 검색
+                    </button>
+                    <button 
+                        id="clearDates" 
+                        class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md font-medium transition-colors text-sm"
+                    >
+                        날짜 초기화
+                    </button>
+                </div>
             </div>
             
-            <div class="space-y-3">
-                ${flightData.routes
-                  .map(
-                    (flight, index) => `
-                    <div class="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700 hover:shadow-md transition-all card-hover">
-                        <div class="flex items-center justify-between mb-3">
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 bg-indigo-500 rounded-lg flex items-center justify-center">
-                                    <span class="text-white font-medium text-sm">${flight.airline.charAt(0)}</span>
-                                </div>
-                                <div>
-                                    <h4 class="font-semibold text-gray-900 dark:text-white">${flight.airline}</h4>
-                                    <p class="text-sm text-gray-500 dark:text-gray-400">${flight.from} → ${flight.to}</p>
-                                </div>
-                            </div>
-                            <div class="text-right">
-                                <div class="text-xl font-bold text-indigo-600 dark:text-indigo-400">
-                                    ₩${flight.price.toLocaleString()}
-                                </div>
-                                <div class="text-sm text-gray-500 dark:text-gray-400">편도</div>
-                            </div>
+            <!-- 항공편 검색 결과 -->
+            ${flightData.success ? `
+                <!-- 가격 요약 정보 -->
+                <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 border border-blue-200 dark:border-blue-700 mb-4">
+                    <h4 class="font-semibold text-blue-900 dark:text-blue-300 mb-3">항공료 정보</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-center">
+                        <div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400">최저가</div>
+                            <div class="text-lg font-bold text-green-600 dark:text-green-400">₩${flightData.price_range?.min?.toLocaleString() || 'N/A'}</div>
                         </div>
-                        <div class="grid grid-cols-3 gap-3 bg-gray-50 dark:bg-gray-700 rounded-md p-3">
-                            <div class="text-center">
-                                <div class="text-sm text-gray-600 dark:text-gray-400">소요시간</div>
-                                <div class="font-medium text-sm">${flight.duration}</div>
-                            </div>
-                            <div class="text-center">
-                                <div class="text-sm text-gray-600 dark:text-gray-400">경유</div>
-                                <div class="font-medium text-sm">${flight.stops === 0 ? "직항" : `${flight.stops}회 경유`}</div>
-                            </div>
-                            <div class="text-center">
-                                <div class="text-sm text-gray-600 dark:text-gray-400">좌석</div>
-                                <div class="font-medium text-sm text-green-600">예약 가능</div>
-                            </div>
+                        <div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400">평균가</div>
+                            <div class="text-lg font-bold text-blue-600 dark:text-blue-400">₩${flightData.price_range?.average?.toLocaleString() || 'N/A'}</div>
+                        </div>
+                        <div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400">최고가</div>
+                            <div class="text-lg font-bold text-red-600 dark:text-red-400">₩${flightData.price_range?.max?.toLocaleString() || 'N/A'}</div>
+                        </div>
+                        <div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400">찾은 항공편</div>
+                            <div class="text-lg font-bold text-gray-700 dark:text-gray-300">${flightData.flight_count || 0}개</div>
                         </div>
                     </div>
-                `,
-                  )
-                  .join("")}
-            </div>
+                    <div class="mt-3 text-xs text-gray-500 dark:text-gray-400">
+                        마지막 업데이트: ${flightData.last_updated ? new Date(flightData.last_updated).toLocaleString() : 'N/A'}
+                    </div>
+                </div>
+                
+                <div class="space-y-3">
+                    ${(flightData.flights || []).map((flight, index) => `
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700 hover:shadow-md transition-all card-hover">
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 bg-indigo-500 rounded-lg flex items-center justify-center">
+                                        <span class="text-white font-medium text-sm">${flight.airline?.charAt(0) || '✈️'}</span>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-900 dark:text-white">${flight.airline || '항공사 정보 없음'}</h4>
+                                        <p class="text-sm text-gray-500 dark:text-gray-400">ICN → ${destinationCode}</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-xl font-bold text-indigo-600 dark:text-indigo-400">
+                                        ${flight.price || flight.price_numeric ? `₩${(flight.price_numeric || 0).toLocaleString()}` : 'N/A'}
+                                    </div>
+                                    <div class="text-sm text-gray-500 dark:text-gray-400">편도</div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-3 gap-3 bg-gray-50 dark:bg-gray-700 rounded-md p-3">
+                                <div class="text-center">
+                                    <div class="text-sm text-gray-600 dark:text-gray-400">출발시간</div>
+                                    <div class="font-medium text-sm">${flight.departure_time || 'N/A'}</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-sm text-gray-600 dark:text-gray-400">소요시간</div>
+                                    <div class="font-medium text-sm">${flight.duration || 'N/A'}</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-sm text-gray-600 dark:text-gray-400">데이터 출처</div>
+                                    <div class="font-medium text-sm">${flight.source || '네이버 항공'}</div>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            ` : `
+                <div class="text-center p-8 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+                    <div class="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center mx-auto mb-4 opacity-50">
+                        <span class="text-lg">✈️</span>
+                    </div>
+                    <div class="text-gray-500 dark:text-gray-400 mb-2">${flightData.error || '항공편 정보를 찾을 수 없습니다.'}</div>
+                    <div class="text-sm text-gray-400">다른 날짜나 국가를 선택해보세요.</div>
+                    <div class="mt-4">
+                        <button 
+                            onclick="window.location.reload()" 
+                            class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-md font-medium transition-colors text-sm"
+                        >
+                            다시 시도
+                        </button>
+                    </div>
+                </div>
+            `}
         </div>
       `
       container.innerHTML = html
+      
+      // 이벤트 리스너 초기화
+      this.initFlightSearchEvents()
     } catch (error) {
       console.error("항공권 정보 렌더링 실패:", error)
       const container = document.getElementById("flightContent")
@@ -816,210 +903,119 @@ export class UIRenderer {
     }
   }
 
-  // 체크리스트 렌더링
-  async renderChecklists() {
-    try {
-      const country = this.state.get("country")
-      const topic = this.state.get("topic")
+  // 항공편 검색 이벤트 초기화
+  initFlightSearchEvents() {
+    const departureDate = document.getElementById('departureDate')
+    const returnDate = document.getElementById('returnDate')
+    const searchBtn = document.getElementById('searchFlights')
+    const clearBtn = document.getElementById('clearDates')
 
-      if (!country || !topic) {
-        const container = document.getElementById("checklistList")
-        if (container) {
-          container.innerHTML = `
-            <div class="text-center p-8 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-                <div class="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center mx-auto mb-4">
-                    <span class="text-white text-lg">✅</span>
-                </div>
-                <div class="text-gray-500 dark:text-gray-400 mb-4">국가와 주제를 선택하면 체크리스트를 확인할 수 있습니다.</div>
-            </div>
-          `
-        }
+    if (!departureDate || !returnDate || !searchBtn || !clearBtn) return
+
+    // 출발일 변경 시 복귀일 최소값 업데이트
+    departureDate.addEventListener('change', () => {
+      const selectedDate = departureDate.value
+      returnDate.min = selectedDate
+      
+      // 복귀일이 출발일보다 빠를 경우 초기화
+      if (returnDate.value && returnDate.value < selectedDate) {
+        returnDate.value = ''
+      }
+      
+      // 상태에 날짜 저장
+      this.state.set('flightDate', selectedDate)
+    })
+
+    // 검색 버튼 클릭
+    searchBtn.addEventListener('click', async () => {
+      const country = this.state.get('country')
+      const selectedDate = departureDate.value
+      
+      if (!country) {
+        alert('국가를 먼저 선택해주세요.')
+        return
+      }
+      
+      if (!selectedDate) {
+        alert('출발일을 선택해주세요.')
         return
       }
 
-      const data = await this.api.getChecklists(country, topic)
-      this.renderChecklistList(data.checklists || [])
-    } catch (error) {
-      console.error("체크리스트 렌더링 실패:", error)
-    }
-  }
-
-  renderChecklistList(checklists) {
-    const container = document.getElementById("checklistList")
-    if (!container) return
-
-    if (checklists.length === 0) {
-      container.innerHTML = `
-        <div class="text-center p-8 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-            <div class="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center mx-auto mb-4 opacity-50">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
-                </svg>
-            </div>
-            <div class="text-gray-500 dark:text-gray-400">해당 조건의 체크리스트가 없습니다.</div>
-        </div>
+      // 로딩 표시
+      searchBtn.disabled = true
+      searchBtn.innerHTML = `
+        <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+        검색 중...
       `
-      return
-    }
 
-    const html = checklists
-      .map(
-        (checklist, index) => `
-        <div class="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700 cursor-pointer hover:shadow-md transition-all card-hover" 
-             onclick="window.travelBotApp.showChecklistDetail(${checklist.id})">
-            <div class="flex items-start gap-3">
-                <div class="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <span class="text-white text-sm">✅</span>
-                </div>
-                <div class="flex-1">
-                    <h4 class="font-semibold mb-2 text-gray-900 dark:text-white">${checklist.name}</h4>
-                    <p class="text-gray-600 dark:text-gray-400 text-sm mb-3 leading-relaxed">${checklist.description}</p>
-                    <div class="flex justify-between items-center">
-                        <div class="flex gap-3">
-                            <span class="text-sm text-blue-600 dark:text-blue-400 font-medium">전체 ${checklist.items_count}개</span>
-                            <span class="text-sm text-red-600 dark:text-red-400 font-medium">필수 ${checklist.required_items_count}개</span>
-                        </div>
-                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                        </svg>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `,
-      )
-      .join("")
+      try {
+        // 상태 업데이트 후 다시 렌더링
+        this.state.set('flightDate', selectedDate)
+        await this.renderFlightTab()
+      } catch (error) {
+        console.error('항공편 검색 실패:', error)
+        alert('항공편 검색 중 오류가 발생했습니다.')
+      } finally {
+        searchBtn.disabled = false
+        searchBtn.innerHTML = `
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+          항공편 검색
+        `
+      }
+    })
 
-    container.innerHTML = html
+    // 날짜 초기화 버튼
+    clearBtn.addEventListener('click', () => {
+      const defaultDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+      departureDate.value = defaultDate
+      returnDate.value = ''
+      returnDate.min = defaultDate
+      
+      // 상태 업데이트
+      this.state.set('flightDate', defaultDate)
+    })
+
+    // 빠른 날짜 선택 버튼 추가 (선택사항)
+    this.addQuickDateButtons()
   }
 
-  // 커뮤니티 렌더링
-  async renderCommunity() {
-    try {
-      const country = this.state.get("country")
-      const topic = this.state.get("topic")
+  // 빠른 날짜 선택 버튼 추가
+  addQuickDateButtons() {
+    const searchContainer = document.querySelector('#searchFlights').parentElement
+    if (!searchContainer) return
 
-      const filters = {}
-      if (country) filters.country = country
-      if (topic) filters.topic = topic
-      filters.limit = 10
-      filters.sort = "recent"
-
-      const data = await this.api.getCommunityPosts(filters)
-      this.renderCommunityPosts(data.posts || [])
-    } catch (error) {
-      console.error("커뮤니티 렌더링 실패:", error)
-    }
-  }
-
-  renderCommunityPosts(posts) {
-    const container = document.getElementById("communityPosts")
-    if (!container) return
-
-    if (posts.length === 0) {
-      container.innerHTML = `
-        <div class="text-center p-8 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-            <div class="w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <span class="text-white text-lg">👥</span>
-            </div>
-            <div class="text-gray-500 dark:text-gray-400 mb-4">아직 작성된 게시글이 없습니다.</div>
-            <button onclick="window.travelBotApp.showPostForm()" 
-                    class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg font-medium transition-colors">
-                첫 번째 게시글 작성하기
-            </button>
-        </div>
-      `
-      return
-    }
-
-    const html = `
-      <div class="mb-4">
-          <button onclick="window.travelBotApp.showPostForm()" 
-                  class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-              </svg>
-              새 게시글 작성
-          </button>
-      </div>
-      <div class="space-y-3">
-          ${posts.map((post, index) => this.renderCommunityPost(post, index)).join("")}
+    const quickDatesHtml = `
+      <div class="mt-2 flex flex-wrap gap-1">
+        <span class="text-xs text-gray-500 dark:text-gray-400 mr-2">빠른 선택:</span>
+        <button class="quick-date-btn px-2 py-1 text-xs bg-blue-100 hover:bg-blue-200 dark:bg-blue-900 dark:hover:bg-blue-800 text-blue-700 dark:text-blue-300 rounded transition-colors" data-days="7">1주일 후</button>
+        <button class="quick-date-btn px-2 py-1 text-xs bg-blue-100 hover:bg-blue-200 dark:bg-blue-900 dark:hover:bg-blue-800 text-blue-700 dark:text-blue-300 rounded transition-colors" data-days="14">2주일 후</button>
+        <button class="quick-date-btn px-2 py-1 text-xs bg-blue-100 hover:bg-blue-200 dark:bg-blue-900 dark:hover:bg-blue-800 text-blue-700 dark:text-blue-300 rounded transition-colors" data-days="30">1개월 후</button>
+        <button class="quick-date-btn px-2 py-1 text-xs bg-blue-100 hover:bg-blue-200 dark:bg-blue-900 dark:hover:bg-blue-800 text-blue-700 dark:text-blue-300 rounded transition-colors" data-days="90">3개월 후</button>
       </div>
     `
+    
+    searchContainer.insertAdjacentHTML('afterend', quickDatesHtml)
 
-    container.innerHTML = html
+    // 빠른 날짜 선택 이벤트
+    document.querySelectorAll('.quick-date-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const days = parseInt(btn.dataset.days)
+        const targetDate = new Date(Date.now() + days * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+        
+        const departureDate = document.getElementById('departureDate')
+        if (departureDate) {
+          departureDate.value = targetDate
+          departureDate.dispatchEvent(new Event('change'))
+        }
+      })
+    })
   }
 
-  renderCommunityPost(post, index) {
-    const typeColors = {
-      review: "bg-green-500",
-      question: "bg-blue-500",
-      tip: "bg-yellow-500",
-      info: "bg-purple-500",
-    }
-
-    const typeIcons = {
-      review: "⭐",
-      question: "❓",
-      tip: "💡",
-      info: "ℹ️",
-    }
-
-    const typeColor = typeColors[post.post_type] || "bg-gray-500"
-    const typeIcon = typeIcons[post.post_type] || "📝"
-
-    return `
-      <div class="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700 hover:shadow-md transition-all cursor-pointer card-hover"
-           onclick="window.travelBotApp.showPostDetail(${post.id})">
-          <div class="flex items-start justify-between mb-3">
-              <div class="flex items-center space-x-2">
-                  <div class="w-8 h-8 ${typeColor} rounded-lg flex items-center justify-center">
-                      <span class="text-white text-sm">${typeIcon}</span>
-                  </div>
-                  <div>
-                      <span class="px-2 py-1 text-xs rounded-full ${typeColor} text-white font-medium">
-                          ${post.post_type_display}
-                      </span>
-                      ${post.rating ? `<div class="text-yellow-500 mt-1 text-sm">${"⭐".repeat(post.rating)}</div>` : ""}
-                  </div>
-              </div>
-              <div class="text-xs text-gray-500 dark:text-gray-400">
-                  ${new Date(post.created_at).toLocaleDateString()}
-              </div>
-          </div>
-          <h3 class="font-semibold mb-2 text-gray-900 dark:text-white">${post.title}</h3>
-          <p class="text-gray-600 dark:text-gray-400 text-sm mb-3 leading-relaxed line-clamp-3">${post.content}</p>
-          <div class="flex items-center justify-between">
-              <div class="flex items-center space-x-3 text-xs text-gray-500 dark:text-gray-400">
-                  <span class="flex items-center gap-1">
-                      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                      </svg>
-                      ${post.views}
-                  </span>
-                  <span class="flex items-center gap-1">
-                      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-                      </svg>
-                      ${post.likes}
-                  </span>
-                  <span class="flex items-center gap-1">
-                      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-                      </svg>
-                      ${post.comments_count}
-                  </span>
-              </div>
-              <div class="flex items-center gap-2">
-                  <span class="font-medium text-gray-700 dark:text-gray-300 text-sm">${post.author_name}</span>
-                  <svg class="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                  </svg>
-              </div>
-          </div>
-      </div>
-    `
+  // 체크리스트 렌더링 (노션 스타일 사용)
+  async renderChecklists() {
+    await this.notionChecklist.renderChecklists()
   }
 
   // 헬퍼 메서드들
@@ -1050,6 +1046,76 @@ export class UIRenderer {
       UK: "LHR",
     }
     return codes[country] || "XXX"
+  }
+
+  // 목적지 공항 코드 매핑 (백엔드용)
+  getDestinationCode(country) {
+    const codes = {
+      America: "LAX",
+      Australia: "SYD", 
+      Austria: "VIE",
+      Canada: "YVR",
+      China: "PEK",
+      France: "CDG",
+      Germany: "FRA",
+      Italy: "FCO",
+      Japan: "NRT",
+      "New Zealand": "AKL",
+      Philippines: "MNL",
+      Singapore: "SIN",
+      UK: "LHR",
+      Thailand: "BKK",
+      Vietnam: "SGN",
+      Indonesia: "CGK",
+      Malaysia: "KUL",
+      Taiwan: "TPE",
+      "Hong Kong": "HKG",
+      India: "DEL",
+      Russia: "SVO",
+      Turkey: "IST",
+      UAE: "DXB",
+      Egypt: "CAI",
+      "South Africa": "JNB",
+      Kenya: "NBO",
+      Morocco: "CMN",
+      Brazil: "GRU",
+      Argentina: "EZE",
+      Chile: "SCL",
+      Mexico: "MEX",
+      Peru: "LIM",
+      Colombia: "BOG",
+      Spain: "MAD",
+      Portugal: "LIS",
+      Netherlands: "AMS",
+      Belgium: "BRU",
+      Switzerland: "ZUR",
+      Sweden: "ARN",
+      Norway: "OSL",
+      Denmark: "CPH",
+      Finland: "HEL",
+      Poland: "WAW",
+      Czech: "PRG",
+      Hungary: "BUD",
+      Greece: "ATH",
+      Croatia: "ZAG",
+      Israel: "TLV",
+      Jordan: "AMM",
+      Qatar: "DOH",
+      Kuwait: "KWI",
+      "Saudi Arabia": "RUH",
+      Iran: "IKA",
+      Pakistan: "KHI",
+      Bangladesh: "DAC",
+      "Sri Lanka": "CMB",
+      Nepal: "KTM",
+      Myanmar: "RGN",
+      Cambodia: "PNH",
+      Laos: "VTE",
+      Mongolia: "ULN",
+      Kazakhstan: "ALA",
+      Uzbekistan: "TAS"
+    }
+    return codes[country] || "NRT" // 기본값은 도쿄
   }
 
   getDomain(url) {

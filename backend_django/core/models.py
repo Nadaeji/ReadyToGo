@@ -68,36 +68,17 @@ class FAQ(BaseModel):
     def __str__(self):
         return f"{self.country} - {self.topic}: {self.question[:50]}..."
 
-# 체크리스트 모델
-class ChecklistTemplate(BaseModel):
-    """체크리스트 템플릿"""
-    name = models.CharField(max_length=200)
-    country = models.CharField(max_length=100, db_index=True)
-    topic = models.CharField(max_length=100, db_index=True)  # visa, travel_prep 등
-    description = models.TextField(blank=True)
-    
-    class Meta:
-        db_table = 'checklist_templates'
-        
-    def __str__(self):
-        return f"{self.country} - {self.topic}: {self.name}"
+class Checklist(models.Model):
+    country = models.CharField(max_length=100)
+    category = models.CharField(max_length=100)
+    checklist_item = models.CharField(max_length=255)
 
-class ChecklistItem(BaseModel):
-    """체크리스트 항목"""
-    template = models.ForeignKey(ChecklistTemplate, on_delete=models.CASCADE, related_name='items')
-    title = models.CharField(max_length=300)
-    description = models.TextField(blank=True)
-    is_required = models.BooleanField(default=True)
-    order = models.IntegerField(default=0)
-    estimated_time = models.CharField(max_length=50, blank=True)  # "1-2주", "1일" 등
-    
     class Meta:
-        db_table = 'checklist_items'
-        ordering = ['order', 'id']
-        
-    def __str__(self):
-        return f"{self.template.name}: {self.title}"
+        db_table = 'checklist'
 
+    def __str__(self):
+        return f"{self.country} - {self.checklist_item}"
+    
 # 커뮤니티 모델
 class CommunityPost(BaseModel):
     """커뮤니티 게시글"""

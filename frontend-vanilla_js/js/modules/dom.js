@@ -50,7 +50,6 @@ export class DOMManager {
         realtimeSection: document.getElementById("realtimeSection"),
         exchangeRates: document.getElementById("exchangeRates"),
         weatherInfo: document.getElementById("weatherInfo"),
-        embassyNotices: document.getElementById("embassyNotices"),
   
         // 체크리스트 영역
         checklistSection: document.getElementById("checklistSection"),
