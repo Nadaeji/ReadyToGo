@@ -292,37 +292,7 @@ def get_example_questions(request):
         questions = queryset.order_by('-created_at')[:5]
         
         examples = [q.question for q in questions] if questions else []
-        
-        # 기본 예시 질문 (DB에 데이터가 없는 경우)
-        if not examples:
-            default_examples = {
-                "america": {
-                    "visa": [
-                        "미국 관광비자 신청 방법이 궁금해요",
-                        "ESTA와 일반 비자의 차이점이 뭔가요?",
-                        "미국 비자 면접 준비사항을 알려주세요"
-                    ],
-                    "insurance": [
-                        "미국 여행보험 추천해주세요",
-                        "미국 의료비는 얼마나 비싼가요?",
-                        "여행보험 없이 미국 갔다가 아프면 어떡하나요?"
-                    ]
-                },
-                "japan": {
-                    "visa": [
-                        "일본 무비자 입국 조건이 뭔가요?",
-                        "일본 단기체류 비자 신청 방법을 알려주세요"
-                    ],
-                    "insurance": [
-                        "일본 여행보험이 필요한가요?",
-                        "일본 여행 중 병원 이용법을 알려주세요"
-                    ]
-                }
-            }
-            
-            if country and topic:
-                examples = default_examples.get(country.lower(), {}).get(topic.lower(), [])
-        
+    
         return Response({
             'examples': examples
         }, status=status.HTTP_200_OK)

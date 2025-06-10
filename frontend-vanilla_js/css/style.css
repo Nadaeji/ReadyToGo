@@ -1,229 +1,365 @@
-/* 커스텀 CSS 스타일 */
+/* 모던 미니멀 스타일링 */
 
-/* FAQ 스크롤 영역 개선 */
+/* 커스텀 스크롤바 */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(59, 130, 246, 0.3) transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(59, 130, 246, 0.3);
+  border-radius: 2px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(59, 130, 246, 0.5);
+}
+
+/* FAQ 스크롤 영역 */
 .faq-scroll-container {
-    overflow-x: auto;
-    overflow-y: hidden;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(52, 152, 219, 0.3) transparent;
-    padding-bottom: 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(59, 130, 246, 0.3) transparent;
+  padding-bottom: 4px;
 }
 
 .faq-scroll-container::-webkit-scrollbar {
-    height: 8px;
+  height: 4px;
 }
 
 .faq-scroll-container::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.05);
-    border-radius: 4px;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 2px;
 }
 
 .faq-scroll-container::-webkit-scrollbar-thumb {
-    background: rgba(52, 152, 219, 0.3);
-    border-radius: 4px;
+  background: rgba(59, 130, 246, 0.3);
+  border-radius: 2px;
 }
 
 .faq-scroll-container::-webkit-scrollbar-thumb:hover {
-    background: rgba(52, 152, 219, 0.5);
+  background: rgba(59, 130, 246, 0.5);
 }
 
-/* FAQ 카드 개선 */
+/* FAQ 카드 스타일 */
 .faq-cards-wrapper {
-    display: flex;
-    gap: 1rem;
-    min-width: max-content;
-    padding: 0.5rem 1rem;
+  display: flex;
+  gap: 0.75rem;
+  min-width: max-content;
+  padding: 0.25rem 0.5rem;
 }
 
-/* Custom scroll hide - 다른 영역용 */
-.custom-scroll-hide {
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE and Edge */
-}
-
-.custom-scroll-hide::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera */
-}
-
-/* 버튼 효과 */
-.btn-travel {
-    transition: all 0.3s ease;
-}
-
-.btn-travel:hover {
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    transform: translateY(-2px);
-}
-
-/* 카드 효과 */
-.card-travel {
-    transition: all 0.3s ease;
-}
-
-.card-travel:hover {
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-    border-color: rgba(52, 152, 219, 0.2);
-}
-
-/* FAQ 카드 호버 효과 */
 .faq-card {
-    min-width: 220px;
-    max-width: 260px;
-    transition: all 0.3s ease;
+  min-width: 240px;
+  max-width: 280px;
+  transition: all 0.2s ease;
+  background: white;
+  border: 1px solid #e5e7eb;
+}
+
+.dark .faq-card {
+  background: #374151;
+  border: 1px solid #4b5563;
 }
 
 .faq-card:hover {
-    min-width: 280px;
-    transform: scale(1.05);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.faq-card .faq-question {
-    transition: all 0.3s ease;
-}
-
-.faq-card:hover .faq-question {
-    white-space: normal;
-    height: auto;
-}
-
-.faq-card .faq-answer {
-    height: 0;
-    opacity: 0;
-    transition: all 0.3s ease;
-    overflow: hidden;
-}
-
-.faq-card:hover .faq-answer {
-    height: auto;
-    opacity: 1;
+.dark .faq-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 /* 채팅 메시지 애니메이션 */
 .chat-message {
-    animation: slideIn 0.3s ease-out;
-}
-
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  animation: slideUp 0.2s ease-out;
 }
 
 /* 로딩 애니메이션 */
 .loading-dots {
-    display: inline-block;
+  display: inline-block;
 }
 
 .loading-dots::after {
-    content: '';
-    animation: dots 1.5s steps(4, end) infinite;
-}
-
-@keyframes dots {
-    0%, 20% { content: ''; }
-    40% { content: '.'; }
-    60% { content: '..'; }
-    80%, 100% { content: '...'; }
-}
-
-/* 텍스트 그라디언트 */
-.text-gradient-travel {
-    background: linear-gradient(to right, hsl(199, 89%, 48%), hsl(165, 60%, 50%), hsl(12, 60%, 65%));
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-/* 모달 애니메이션 */
-.modal-enter {
-    animation: modalEnter 0.3s ease-out;
-}
-
-@keyframes modalEnter {
-    from {
-        opacity: 0;
-        transform: scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
+  content: "";
+  animation: dots 1.5s steps(4, end) infinite;
 }
 
 /* 채팅 리스트 아이템 */
 .chat-list-item {
-    transition: all 0.2s ease;
+  transition: all 0.2s ease;
+  background: transparent;
+  border: 1px solid transparent;
 }
 
 .chat-list-item:hover {
-    transform: translateX(4px);
+  background: #f3f4f6;
+  border-color: #e5e7eb;
 }
 
-/* 선택된 채팅 */
+.dark .chat-list-item:hover {
+  background: #374151;
+  border-color: #4b5563;
+}
+
 .chat-list-item.active {
-    background-color: rgba(52, 152, 219, 0.1);
-    border-left: 3px solid hsl(199, 89%, 48%);
+  background: #eff6ff;
+  border-color: #3b82f6;
+  color: #1d4ed8;
 }
 
-/* 선택 박스 커스터마이징 */
-select {
-    background-image: none;
+.dark .chat-list-item.active {
+  background: #1e3a8a;
+  border-color: #3b82f6;
+  color: #93c5fd;
 }
 
-/* 버튼 활성화/비활성화 상태 */
-.btn-disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
+/* 키프레임 애니메이션 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.btn-disabled:hover {
-    transform: none;
-    box-shadow: none;
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dots {
+  0%,
+  20% {
+    content: "";
+  }
+  40% {
+    content: ".";
+  }
+  60% {
+    content: "..";
+  }
+  80%,
+  100% {
+    content: "...";
+  }
+}
+
+/* 탭 네비게이션 스타일 */
+.tab-button {
+  color: #6b7280;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  position: relative;
+}
+
+.tab-button.active {
+  color: #3b82f6;
+  background: #eff6ff;
+}
+
+.dark .tab-button {
+  color: #9ca3af;
+}
+
+.dark .tab-button.active {
+  color: #60a5fa;
+  background: #1e3a8a;
+}
+
+.tab-button:hover:not(.active) {
+  color: #374151;
+  background: #f9fafb;
+}
+
+.dark .tab-button:hover:not(.active) {
+  color: #d1d5db;
+  background: #374151;
+}
+
+/* 탭 컨텐츠 */
+.tab-content {
+  display: none;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.tab-content.active {
+  display: flex;
+}
+
+/* 로딩 스피너 */
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* 반응형 디자인 */
 @media (max-width: 768px) {
-    #sidebar {
-        width: 100%;
-        height: auto;
-        position: relative;
-    }
-    
-    #app {
-        flex-direction: column;
-    }
-    
-    .faq-card {
-        min-width: 200px;
-        max-width: 240px;
-    }
-    
-    .faq-card:hover {
-        min-width: 240px;
-    }
+  #sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+
+  #app {
+    flex-direction: column;
+  }
+
+  .faq-card {
+    min-width: 200px;
+    max-width: 240px;
+  }
+
+  #contentContainer {
+    padding: 0 1rem;
+  }
 }
 
-/* 스크롤바 커스터마이징 */
-#chatArea::-webkit-scrollbar {
-    width: 6px;
+@media (max-width: 640px) {
+  .faq-card {
+    min-width: 180px;
+    max-width: 220px;
+  }
+
+  #sidebar {
+    padding: 1rem;
+  }
+
+  .tab-button span {
+    display: none;
+  }
+
+  .tab-button {
+    padding: 0.5rem;
+  }
 }
 
-#chatArea::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 3px;
+/* 다크모드 전환 애니메이션 */
+* {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
-#chatArea::-webkit-scrollbar-thumb {
-    background: rgba(52, 152, 219, 0.3);
-    border-radius: 3px;
+/* 포커스 스타일 */
+button:focus-visible,
+select:focus-visible,
+input:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
 }
 
-#chatArea::-webkit-scrollbar-thumb:hover {
-    background: rgba(52, 152, 219, 0.5);
+/* 선택 불가능한 텍스트 */
+.select-none {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
+
+/* 커스텀 체크박스 */
+.custom-checkbox {
+  appearance: none;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid #d1d5db;
+  border-radius: 0.25rem;
+  background: white;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s;
+}
+
+.custom-checkbox:checked {
+  background: #3b82f6;
+  border-color: #3b82f6;
+}
+
+.custom-checkbox:checked::after {
+  content: "✓";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 0.625rem;
+  font-weight: bold;
+}
+
+/* 카드 호버 효과 */
+.card-hover {
+  transition: all 0.2s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.dark .card-hover:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* 텍스트 크기 조정 */
+.text-xs { font-size: 0.75rem; }
+.text-sm { font-size: 0.875rem; }
+.text-base { font-size: 1rem; }
+.text-lg { font-size: 1.125rem; }
+.text-xl { font-size: 1.25rem; }
+
+/* 간격 조정 */
+.space-y-1 > * + * { margin-top: 0.25rem; }
+.space-y-2 > * + * { margin-top: 0.5rem; }
+.space-y-3 > * + * { margin-top: 0.75rem; }
+.space-y-4 > * + * { margin-top: 1rem; }
+
+.gap-1 { gap: 0.25rem; }
+.gap-2 { gap: 0.5rem; }
+.gap-3 { gap: 0.75rem; }
+.gap-4 { gap: 1rem; }
+
+/* 패딩 조정 */
+.p-1 { padding: 0.25rem; }
+.p-2 { padding: 0.5rem; }
+.p-3 { padding: 0.75rem; }
+.p-4 { padding: 1rem; }
+
+.px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
+.px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
+.px-4 { padding-left: 1rem; padding-right: 1rem; }
+
+.py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
+.py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+.py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }

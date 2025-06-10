@@ -1,203 +1,340 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ready To Go - 여행 정보 챗봇</title>
+    <title>Ready To Go - AI 여행 어시스턴트</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                    },
                     colors: {
                         primary: {
-                            DEFAULT: 'hsl(199, 89%, 48%)',
-                            foreground: 'hsl(0, 0%, 100%)'
-                        },
-                        secondary: {
-                            DEFAULT: 'hsl(12, 60%, 65%)',
-                            foreground: 'hsl(0, 0%, 100%)'
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                            DEFAULT: '#475569'
                         },
                         accent: {
-                            DEFAULT: 'hsl(165, 60%, 50%)',
-                            foreground: 'hsl(0, 0%, 100%)'
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                            DEFAULT: '#3b82f6'
                         }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.3s ease-in-out',
+                        'slide-up': 'slideUp 0.2s ease-out',
                     }
                 }
-            }
+            },
+            darkMode: 'class'
         }
     </script>
 </head>
-<body class="min-h-screen bg-gradient-to-b from-gray-50 to-white text-gray-800">
+<body class="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200 font-sans">
     <div id="app" class="min-h-screen flex flex-row">
         <!-- 사이드바 -->
-        <aside id="sidebar" class="w-72 bg-gray-50 border-r border-gray-200 flex flex-col px-6 py-6 gap-4 shadow-sm">
-            <div class="flex items-center gap-3 mb-3">
-                <img src="assets/mascot.png" alt="마스코트" class="w-10 h-10" onerror="this.style.display='none'">
-                <span class="text-2xl font-bold text-gray-800 tracking-wide">Ready <span class="bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">To Go</span></span>
-            </div>
-            
-            <div class="flex flex-col gap-2 mb-2">
-                <label class="text-sm text-gray-700 font-bold mt-2" for="country">국가</label>
-                <div class="relative">
-                    <select id="country" class="w-full p-2 pr-10 rounded-md bg-white text-gray-800 border border-gray-300 appearance-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
-                        <option value="">국가 선택</option>
-                    </select>
-                    <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none">
-                        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
+        <aside id="sidebar" class="w-72 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col p-4 gap-4 shadow-sm">
+            <!-- 헤더 -->
+            <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-accent-500 rounded-lg flex items-center justify-center">
+                        <img src="assets/mascot.png" alt="마스코트" class="w-5 h-5" onerror="this.style.display='none'">
+                        <span class="text-white font-medium text-sm" style="display: none;">✈️</span>
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-semibold text-gray-900 dark:text-white">Ready To Go</h1>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">AI 여행 어시스턴트</p>
                     </div>
                 </div>
-
-                <label class="text-sm text-gray-700 font-bold mt-2" for="topic">토픽</label>
-                <div class="relative">
-                    <select id="topic" class="w-full p-2 pr-10 rounded-md bg-white text-gray-800 border border-gray-300 appearance-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
-                        <option value="">토픽 선택</option>
-                    </select>
-                    <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none">
-                        <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
+                
+                <!-- 다크모드 토글 -->
+                <button id="darkModeToggle" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                    <svg class="w-4 h-4 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path class="dark:hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        <path class="hidden dark:block" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- 설정 카드 -->
+            <div class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
+                <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">여행 설정</h3>
+                
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1" for="country">목적지 국가</label>
+                        <select id="country" class="w-full p-2 text-sm rounded-md bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-500 focus:ring-2 focus:ring-accent-500 focus:border-accent-500 transition-colors">
+                            <option value="">국가를 선택하세요</option>
+                        </select>
                     </div>
-                </div>
 
-                <label class="text-sm text-gray-700 font-bold mt-2" for="model">LLM 모델</label>
-                <div class="relative">
-                    <select id="model" class="w-full p-2 pr-10 rounded-md bg-white text-gray-800 border border-gray-300 appearance-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
-                        <option value="">모델 선택</option>
-                    </select>
-                    <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none">
-                        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
+                    <div>
+                        <label class="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1" for="topic">관심 주제</label>
+                        <select id="topic" class="w-full p-2 text-sm rounded-md bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-500 focus:ring-2 focus:ring-accent-500 focus:border-accent-500 transition-colors">
+                            <option value="">주제를 선택하세요</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1" for="model">AI 모델</label>
+                        <select id="model" class="w-full p-2 text-sm rounded-md bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-500 focus:ring-2 focus:ring-accent-500 focus:border-accent-500 transition-colors">
+                            <option value="">모델을 선택하세요</option>
+                        </select>
                     </div>
                 </div>
             </div>
 
-            <button id="newChatBtn" class="bg-primary text-primary-foreground py-2 rounded-lg font-bold mb-2 transition-all shadow-md hover:shadow-lg transform hover:scale-105 hover:bg-primary/90">+ 새 대화</button>
+            <!-- 새 대화 버튼 -->
+            <button id="newChatBtn" class="bg-accent-500 hover:bg-accent-600 text-white py-2.5 px-4 rounded-lg font-medium shadow-sm hover:shadow transition-all flex items-center justify-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                </svg>
+                새 대화 시작
+            </button>
             
-            <!-- 신규 기능 버튼들 -->
-            <div class="flex flex-col gap-2">
-                <button id="realtimeBtn" class="bg-green-500 text-white py-2 rounded-lg font-medium transition-all hover:bg-green-600">🌍 실시간 정보</button>
-                <button id="checklistBtn" class="bg-orange-500 text-white py-2 rounded-lg font-medium transition-all hover:bg-orange-600">✅ 체크리스트</button>
-                <button id="communityBtn" class="bg-purple-500 text-white py-2 rounded-lg font-medium transition-all hover:bg-purple-600">👥 커뮤니티</button>
-            </div>
-            
-            <nav class="flex flex-col gap-2 mt-2">
-                <span class="text-xs text-gray-600 mb-1">대화 리스트</span>
-                <div id="chatList">
-                    <span class="text-gray-400 text-sm">대화가 없습니다</span>
+            <!-- 대화 리스트 -->
+            <div class="flex-1 min-h-0 flex flex-col">
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="text-xs font-medium text-gray-600 dark:text-gray-400">대화 기록</span>
+                    <div class="flex-1 h-px bg-gray-200 dark:bg-gray-600"></div>
                 </div>
-            </nav>
+                <div id="chatList" class="space-y-1 overflow-y-auto flex-1 custom-scrollbar">
+                    <div class="text-gray-400 dark:text-gray-500 text-sm text-center py-8">
+                        대화가 없습니다
+                    </div>
+                </div>
+            </div>
         </aside>
 
         <!-- 메인 컨텐츠 -->
-        <main id="mainContent" class="flex-1 flex flex-col items-center justify-center py-8 px-4 min-h-screen transition-all duration-300">
-            <div id="contentContainer" class="w-full max-w-4xl flex flex-col gap-8">
-                <!-- FAQ 카드 영역 -->
-                <section id="faqSection" class="w-full max-w-4xl mx-auto hidden">
-                    <div class="flex items-center text-lg font-bold text-gray-800 mb-2">
-                        <span class="mr-2">✔️ 자주 하는 질문</span>
-                    </div>
-                    <div class="relative -mx-4 px-4">
-                        <div id="faqCards" class="faq-scroll-container">
-                            <!-- FAQ 카드들이 여기에 동적으로 추가됩니다 -->
-                        </div>
-                    </div>
-                    <div id="sourcesInfo" class="mt-3 flex justify-end px-4 hidden">
-                        <div class="text-xs text-gray-600 flex items-center gap-1">
-                            <svg class="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                            <span class="text-gray-500">참고: </span>
-                            <button id="sourcesBtn" class="text-blue-600 hover:text-blue-800 underline">
-                                <span id="sourcesCount">0</span>개 문서
-                            </button>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- 실시간 정보 영역 -->
-                <section id="realtimeSection" class="w-full max-w-4xl mx-auto hidden">
-                    <div class="flex items-center text-lg font-bold text-gray-800 mb-4">
-                        <span class="mr-2">🌍 실시간 정보</span>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div id="exchangeRates"></div>
-                        <div id="weatherInfo"></div>
-                        <div id="embassyNotices"></div>
-                    </div>
-                </section>
-
-                <!-- 체크리스트 영역 -->
-                <section id="checklistSection" class="w-full max-w-4xl mx-auto hidden">
-                    <div class="flex items-center text-lg font-bold text-gray-800 mb-4">
-                        <span class="mr-2">✅ 여행 체크리스트</span>
-                    </div>
-                    <div id="checklistList" class="space-y-4">
-                        <!-- 체크리스트들이 여기에 동적으로 추가됩니다 -->
-                    </div>
-                </section>
-
-                <!-- 커뮤니티 영역 -->
-                <section id="communitySection" class="w-full max-w-4xl mx-auto hidden">
-                    <div class="flex items-center text-lg font-bold text-gray-800 mb-4">
-                        <span class="mr-2">👥 커뮤니티</span>
-                    </div>
-                    <div id="communityPosts">
-                        <!-- 커뮤니티 게시글들이 여기에 동적으로 추가됩니다 -->
-                    </div>
-                </section>
-
-                <!-- 채팅 영역 -->
-                <section id="chatArea" class="w-full flex-1 flex flex-col gap-2 overflow-y-auto bg-white/10 backdrop-blur-md rounded-xl p-6 border border-gray-200 transition-all duration-300 shadow-lg opacity-50 min-h-[300px] max-h-[350px]">
-                    <div id="chatMessages">
-                        <div id="emptyState" class="text-center text-gray-500 py-16">
-                            <p class="text-lg font-medium mb-2">대화를 시작하려면</p>
-                            <p class="text-sm">'새 대화' 버튼을 클릭하세요</p>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- 입력 영역 -->
-                <form id="chatForm" class="w-full flex items-center gap-2 bg-white/10 backdrop-blur-md rounded-2xl shadow-lg px-6 py-4 border border-gray-200 transition-all duration-300 opacity-50">
-                    <input
-                        type="text"
-                        id="messageInput"
-                        class="flex-1 bg-transparent border-none outline-none text-gray-800 placeholder:text-gray-500 px-2 focus:ring-0"
-                        placeholder="새 대화 시작 버튼을 눌러주세요"
-                        disabled
-                    />
-                    <button 
-                        type="submit" 
-                        id="sendBtn"
-                        disabled 
-                        class="ml-2 px-5 py-2 rounded-xl font-semibold bg-primary hover:bg-primary/90 text-primary-foreground transition-all opacity-60 cursor-not-allowed"
-                    >
-                        전송
+        <main id="mainContent" class="flex-1 flex flex-col p-4 min-h-screen">
+            <div id="contentContainer" class="w-full max-w-5xl mx-auto flex flex-col gap-4 h-full">
+                
+                <!-- 탭 네비게이션 -->
+                <nav class="flex items-center gap-1 bg-white dark:bg-gray-800 rounded-lg p-1 border border-gray-200 dark:border-gray-700 shadow-sm overflow-x-auto">
+                    <button id="chatTab" class="tab-button active flex items-center gap-2 px-3 py-2 rounded-md font-medium text-sm transition-all whitespace-nowrap">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                        </svg>
+                        채팅
                     </button>
-                </form>
-            </div>
+                    <button id="exchangeTab" class="tab-button flex items-center gap-2 px-3 py-2 rounded-md font-medium text-sm transition-all whitespace-nowrap">
+                        <span class="text-sm">💱</span>
+                        환율
+                    </button>
+                    <button id="weatherTab" class="tab-button flex items-center gap-2 px-3 py-2 rounded-md font-medium text-sm transition-all whitespace-nowrap">
+                        <span class="text-sm">🌤️</span>
+                        날씨
+                    </button>
+                    <button id="flightTab" class="tab-button flex items-center gap-2 px-3 py-2 rounded-md font-medium text-sm transition-all whitespace-nowrap">
+                        <span class="text-sm">✈️</span>
+                        항공권
+                    </button>
+                    <button id="checklistTab" class="tab-button flex items-center gap-2 px-3 py-2 rounded-md font-medium text-sm transition-all whitespace-nowrap">
+                        <span class="text-sm">✅</span>
+                        체크리스트
+                    </button>
+                    <button id="communityTab" class="tab-button flex items-center gap-2 px-3 py-2 rounded-md font-medium text-sm transition-all whitespace-nowrap">
+                        <span class="text-sm">👥</span>
+                        커뮤니티
+                    </button>
+                </nav>
 
-            <!-- 하단 메시지 -->
-            <p class="text-xs text-gray-500 text-center w-full max-w-4xl mt-8">Ready To Go 마스코트가 함께 답변을 도와드려요!</p>
+                <!-- 탭 컨텐츠 영역 -->
+                <div id="tabContent" class="flex-1 flex flex-col">
+                    <!-- 채팅 탭 -->
+                    <div id="chatTabContent" class="tab-content active flex flex-col gap-4 h-full">
+                        <!-- FAQ 카드 영역 -->
+                        <section id="faqSection" class="w-full hidden animate-fade-in">
+                            <div class="flex items-center gap-2 mb-3">
+                                <div class="w-6 h-6 bg-accent-500 rounded-md flex items-center justify-center">
+                                    <span class="text-white text-xs">✨</span>
+                                </div>
+                                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">추천 질문</h2>
+                            </div>
+                            <div class="relative -mx-2 px-2">
+                                <div id="faqCards" class="faq-scroll-container pb-2">
+                                    <!-- FAQ 카드들이 여기에 동적으로 추가됩니다 -->
+                                </div>
+                            </div>
+                            <div id="sourcesInfo" class="mt-3 flex justify-end px-2 hidden">
+                                <div class="text-xs text-gray-600 dark:text-gray-400 flex items-center gap-2 bg-gray-100 dark:bg-gray-700 rounded-md px-2 py-1">
+                                    <svg class="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <span class="text-gray-500 dark:text-gray-400">참고: </span>
+                                    <button id="sourcesBtn" class="text-accent-600 dark:text-accent-400 hover:text-accent-700 dark:hover:text-accent-300 underline font-medium">
+                                        <span id="sourcesCount">0</span>개 문서
+                                    </button>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- 채팅 영역 -->
+                        <section id="chatArea" class="flex-1 flex flex-col gap-3 bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700 shadow-sm min-h-[400px]">
+                            <div id="chatMessages" class="flex-1 overflow-y-auto space-y-3 custom-scrollbar">
+                                <div id="emptyState" class="text-center text-gray-500 dark:text-gray-400 py-16 animate-fade-in">
+                                    <div class="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center mx-auto mb-3">
+                                        <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                                        </svg>
+                                    </div>
+                                    <p class="font-medium mb-1">AI와 대화를 시작해보세요</p>
+                                    <p class="text-sm opacity-75">'새 대화 시작' 버튼을 클릭하세요</p>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- 입력 영역 -->
+                        <form id="chatForm" class="bg-white dark:bg-gray-800 rounded-lg shadow-sm px-4 py-3 border border-gray-200 dark:border-gray-700">
+                            <div class="flex items-center gap-3">
+                                <div class="flex-1 relative">
+                                    <input
+                                        type="text"
+                                        id="messageInput"
+                                        class="w-full bg-transparent border-none outline-none text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400 px-3 py-2 focus:ring-0"
+                                        placeholder="새 대화 시작 버튼을 눌러주세요"
+                                        disabled
+                                    />
+                                </div>
+                                <button 
+                                    type="submit" 
+                                    id="sendBtn"
+                                    disabled 
+                                    class="px-4 py-2 rounded-lg font-medium bg-accent-500 hover:bg-accent-600 text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                                >
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                                    </svg>
+                                    전송
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- 환율 탭 -->
+                    <div id="exchangeTabContent" class="tab-content hidden">
+                        <section id="exchangeSection" class="w-full animate-fade-in">
+                            <div class="flex items-center gap-2 mb-4">
+                                <div class="w-6 h-6 bg-green-500 rounded-md flex items-center justify-center">
+                                    <span class="text-white text-xs">💱</span>
+                                </div>
+                                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">실시간 환율 정보</h2>
+                            </div>
+                            <div id="exchangeContent" class="space-y-4">
+                                <!-- 환율 정보가 여기에 렌더링됩니다 -->
+                            </div>
+                        </section>
+                    </div>
+
+                    <!-- 날씨 탭 -->
+                    <div id="weatherTabContent" class="tab-content hidden">
+                        <section id="weatherSection" class="w-full animate-fade-in">
+                            <div class="flex items-center gap-2 mb-4">
+                                <div class="w-6 h-6 bg-blue-500 rounded-md flex items-center justify-center">
+                                    <span class="text-white text-xs">🌤️</span>
+                                </div>
+                                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">날씨 정보</h2>
+                            </div>
+                            <div id="weatherContent" class="space-y-4">
+                                <!-- 날씨 정보가 여기에 렌더링됩니다 -->
+                            </div>
+                        </section>
+                    </div>
+
+                    <!-- 항공권 탭 -->
+                    <div id="flightTabContent" class="tab-content hidden">
+                        <section id="flightSection" class="w-full animate-fade-in">
+                            <div class="flex items-center gap-2 mb-4">
+                                <div class="w-6 h-6 bg-indigo-500 rounded-md flex items-center justify-center">
+                                    <span class="text-white text-xs">✈️</span>
+                                </div>
+                                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">항공권 정보</h2>
+                            </div>
+                            <div id="flightContent" class="space-y-4">
+                                <!-- 항공권 정보가 여기에 렌더링됩니다 -->
+                            </div>
+                        </section>
+                    </div>
+
+                    <!-- 체크리스트 탭 -->
+                    <div id="checklistTabContent" class="tab-content hidden">
+                        <section id="checklistSection" class="w-full animate-fade-in">
+                            <div class="flex items-center gap-2 mb-4">
+                                <div class="w-6 h-6 bg-orange-500 rounded-md flex items-center justify-center">
+                                    <span class="text-white text-xs">✅</span>
+                                </div>
+                                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">여행 준비 체크리스트</h2>
+                            </div>
+                            <div id="checklistList" class="space-y-3">
+                                <!-- 체크리스트들이 여기에 동적으로 추가됩니다 -->
+                            </div>
+                        </section>
+                    </div>
+
+                    <!-- 커뮤니티 탭 -->
+                    <div id="communityTabContent" class="tab-content hidden">
+                        <section id="communitySection" class="w-full animate-fade-in">
+                            <div class="flex items-center gap-2 mb-4">
+                                <div class="w-6 h-6 bg-purple-500 rounded-md flex items-center justify-center">
+                                    <span class="text-white text-xs">👥</span>
+                                </div>
+                                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">여행 커뮤니티</h2>
+                            </div>
+                            <div id="communityPosts">
+                                <!-- 커뮤니티 게시글들이 여기에 동적으로 추가됩니다 -->
+                            </div>
+                        </section>
+                    </div>
+                </div>
+
+                <!-- 하단 메시지 -->
+                <p class="text-xs text-gray-500 dark:text-gray-400 text-center w-full max-w-5xl mx-auto mt-4 opacity-75">
+                    Ready To Go AI가 당신의 완벽한 여행을 도와드립니다
+                </p>
+            </div>
         </main>
     </div>
 
     <!-- 소스 모달 -->
-    <div id="sourcesModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 hidden">
-        <div class="bg-white rounded-lg max-w-md w-full p-6 shadow-xl transform transition-all">
+    <div id="sourcesModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm hidden animate-fade-in">
+        <div class="bg-white dark:bg-gray-800 rounded-lg max-w-md w-full p-6 shadow-xl border border-gray-200 dark:border-gray-700">
             <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-bold text-gray-800">참고 문서</h3>
-                <button id="closeSourcesModal" class="text-gray-400 hover:text-gray-600">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                    <span class="w-5 h-5 bg-accent-500 rounded flex items-center justify-center text-white text-xs">📚</span>
+                    참고 문서
+                </h3>
+                <button id="closeSourcesModal" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
                 </button>
             </div>
-            <div id="sourcesList" class="space-y-2 max-h-96 overflow-y-auto">
+            <div id="sourcesList" class="space-y-2 max-h-96 overflow-y-auto custom-scrollbar">
                 <!-- 소스 목록이 여기에 동적으로 추가됩니다 -->
             </div>
         </div>

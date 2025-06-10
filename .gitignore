@@ -1,2 +1,7 @@
 *.pyc
 .env
+chroma.sqllite3
+*.bin
+*.db
+*.log
+*.pickle
