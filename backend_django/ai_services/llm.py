@@ -7,6 +7,7 @@ from langchain_openai import ChatOpenAI
 from deep_translator import GoogleTranslator
 import httpx
 from django.conf import settings
+import re
 
 logger = logging.getLogger(__name__)
 
@@ -97,26 +98,58 @@ class LLM:
         return response.text
             
 
+
     async def _generate_phi_response(self, query: str, context: str) -> str:
-        """Phi 모델(GPU 서버)을 사용한 응답 생성"""
+        """Phi 모델(GPU 서버)을 사용한 응답 생성. 응답이 불완전하면 재시도."""
+        
         # 서버 상태 확인
         async with httpx.AsyncClient(timeout=httpx.Timeout(5.0)) as client:
             health_response = await client.get(f"{self.AI_SERVER_URL}/api/health")
             if health_response.json().get("status") != "healthy":
                 raise Exception("GPU server not healthy")
-        
-        # API 호출
-        async with httpx.AsyncClient(timeout=self.ai_timeout) as client:
-            payload = {"question": query, "context": context}
-            response = await client.post(f"{self.AI_SERVER_URL}/api/ask", json=payload)
-            response.raise_for_status()
-            
-            result = response.json()
-            logger.info(f"GPU server response time: {result.get('inference_time', 0):.2f}s")
-            
-            if result.get("success") and result.get("answer"):
-                return result["answer"]
-            raise Exception("GPU server returned no answer")
+
+        def is_complete(sentence: str) -> bool:
+            sentence = sentence.strip()
+
+            if sentence.endswith(","):
+                return False
+            # 문장부호로 정상 종료했는지 확인
+            if sentence[-1:] in {".", "?", "!", "…", ".”", "?”", "!”"}:
+                return True
+            # 의미적으로 미완성처럼 보이는 경우 (조심스럽게 판단)
+            if re.search(r"\b(and|but|because|so|if|or|although|maybe|I think|such as)$", sentence, re.IGNORECASE):
+                return False
+            # 길이가 너무 짧은 경우도 미완성 가능성 있음
+            if len(sentence.split()) < 4:
+                return False
+            return True
+
+        attempt = 0
+
+        while attempt <= 3:
+            async with httpx.AsyncClient(timeout=self.ai_timeout) as client:
+                payload = {"question": query, "context": context}
+                response = await client.post(f"{self.AI_SERVER_URL}/api/ask", json=payload)
+                response.raise_for_status()
+
+                result = response.json()
+                answer = result.get("answer", "").strip()
+
+                logger.info(f"GPU server response time: {result.get('inference_time', 0):.2f}s")
+
+                if result.get("success") and answer:
+                    if is_complete(answer):
+                        return answer
+                    else:
+                        logger.warning(f"Incomplete response: '{answer}', retrying... (attempt {attempt + 1})")
+                else:
+                    logger.warning("GPU server returned no answer, retrying...")
+
+            attempt += 1
+
+        raise Exception("GPU server failed to return a complete response after retries")
+
+    
 
     async def _generate_openai_response(self, query: str, context: str, system_prompt: str, history: Optional[List[Dict[str, str]]]) -> str:
         """OpenAI 모델을 사용한 응답 생성"""
@@ -248,7 +281,8 @@ class LLM:
         
         # 모든 번역 실패시
         print("❌ 모든 번역 서비스 실패")
-        return f"번역 실패: {english_text}"            
+        return f"번역 실패: {english_text}"
+    
     async def _translate_to_korean(self, text: str) -> str:
         """영어 텍스트를 한국어로 번역"""
         try:

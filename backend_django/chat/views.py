@@ -152,6 +152,8 @@ def process_message(request):
         model_id = data.get('model_id')
         llm = get_llm()
         
+        message_content = message_content + f" 이 질문은 {country}의 {topic}에 대한 내용입니다. 반드시 완성된 문장으로만 답변해주세요. 반드시 문장이 중간에 잘리지 않도록 답변해주세요. 마지막 문장을 자연스럽게 마무리해주세요. 마지막 문장까지 완성해주세요."
+
         if model_id:
             llm_with_model = LLM(model_name=model_id)
             response_text = asyncio.run(llm_with_model.generate_with_translation(
