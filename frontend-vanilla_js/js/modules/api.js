@@ -220,7 +220,7 @@ export class APIManager {
     }
 
     // 실시간 정보 API
-    async getExchangeRates(baseCurrency = 'KRW', targetCurrencies = 'USD,JPY,EUR,GBP') {
+    async getExchangeRates(baseCurrency = 'KRW', targetCurrencies = 'USD,JPY,EUR,GBP,CAD,AUD,CNY') {
         return await this.call(`/realtime/exchange-rates/?base=${baseCurrency}&targets=${targetCurrencies}`);
     }
 

@@ -81,7 +81,7 @@ class ImprovedFlightCrawler:
         
         # 다양한 셀렉터 시도
         selectors = [
-            '[class*="indivisual_IndivisualItem__CVm69 indivisual_with_labels__vj6Hn"]'
+            '[class*="indivisual_inner__6ST3H"]'
         ]
         
         flight_items = []
@@ -184,7 +184,7 @@ class ImprovedFlightCrawler:
             return int(''.join(numbers))
         return 0
 
-async def crawl_single_destination(departure='ICN', arrival='NRT', date=None):
+async def crawl_single_destination(departure='ICN', arrival='NRT', date=20250719):
     """특정 목적지 상세 크롤링"""
     crawler = ImprovedFlightCrawler()
     await crawler.setup_browser(headless=True)
@@ -199,7 +199,7 @@ async def crawl_single_destination(departure='ICN', arrival='NRT', date=None):
             for flight in flights:
                 print(f"{flight['index']:2d}. {flight['airline']:15} "
                       f"{flight['price']:>12} "
-                      f"{flight['departure_time']} → {flight['arrival_time']} "
+                      f"{flight['departure_time']}"
                       f"({flight['duration']})")
             
             # 최저가 찾기
@@ -221,4 +221,4 @@ if __name__ == "__main__":
     print()
     
     # 예시 실행
-    asyncio.run(crawl_popular_destinations())
+    asyncio.run(crawl_single_destination())

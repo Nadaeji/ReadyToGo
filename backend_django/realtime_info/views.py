@@ -13,7 +13,7 @@ def get_exchange_rates(request):
     """실시간 환율 정보 조회"""
     try:
         base_currency = request.GET.get('base', 'KRW')
-        target_currencies = request.GET.get('targets', 'USD,JPY,EUR,GBP').split(',')
+        target_currencies = request.GET.get('targets', 'USD,JPY,EUR,GBP,CAD,AUD,CNY').split(',')
         target_currencies = [currency.strip() for currency in target_currencies]
         
         # 실시간 API에서 데이터 가져오기

@@ -19,7 +19,7 @@ class RealtimeDataService:
     def get_realtime_exchange_rates(self, base_currency='KRW', target_currencies=None):
         """실시간 환율 정보 조회"""
         if target_currencies is None:
-            target_currencies = ['USD', 'JPY', 'EUR', 'GBP']
+            target_currencies = ['USD', 'JPY', 'EUR', 'GBP', 'CAD', 'AUD', 'CNY']
             
         try:
             url = "https://api.exchangerate-api.com/v4/latest/KRW"
