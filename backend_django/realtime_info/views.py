@@ -86,7 +86,9 @@ def get_flight_price_trends(request):
         origin = request.GET.get('origin', 'ICN')
         destination = request.GET.get('destination', 'NRT')
         date = request.GET.get('date')
-        
+        if "-" in date:
+            date = date.replace("-", "")
+          
         # 실시간 데이터 서비스에서 항공료 정보 가져오기
         service = RealtimeDataService()
         flight_data = service.get_flight_price_trends(origin, destination, date)

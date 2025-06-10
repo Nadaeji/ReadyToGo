@@ -6,7 +6,11 @@ export class UIRenderer {
     this.state = state
     this.dom = dom
     this.api = api
-    this.documentSources = []
+    this.documentSources = [
+      'https://example.com/travel-guide',
+      'https://example.com/hotel-booking',
+      'https://example.com/flight-info'
+    ]
     this.notionChecklist = new NotionChecklistUI(state, api)
     this.initDarkMode()
   }
@@ -149,7 +153,7 @@ export class UIRenderer {
     } else {
       return `
         <div class="flex items-start gap-3 max-w-[85%] ml-auto justify-end animate-slide-in-right">
-          <div class="bg-gradient-to-br from-blue-500 to-indigo-600 text-white px-4 py-3 rounded-2xl rounded-tr-md max-w-full shadow-lg hover:shadow-xl transition-all duration-200 relative">
+          <div class="bg-accent-500 text-white px-4 py-3 rounded-2xl rounded-tr-md max-w-full shadow-lg hover:shadow-xl transition-all duration-200 relative">
             <div class="whitespace-pre-wrap break-words text-sm leading-relaxed font-medium">${message.text}</div>
             <div class="absolute -right-2 top-4 w-0 h-0 border-t-8 border-t-transparent border-b-8 border-b-transparent border-l-8 border-l-blue-500"></div>
           </div>
@@ -215,7 +219,7 @@ export class UIRenderer {
     loadingDiv.className = "chat-message bot animate-slide-in-left"
     loadingDiv.innerHTML = `
       <div class="flex items-start gap-3 max-w-[85%]">
-        <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center flex-shrink-0 shadow-lg ring-2 ring-blue-100 dark:ring-blue-900">
+        <div class="w-10 h-10 bg-accent-500 rounded-full flex items-center justify-center flex-shrink-0 shadow-lg ring-2 ring-blue-100 dark:ring-blue-900">
           <div class="typing-indicator">
             <span></span>
             <span></span>
@@ -289,9 +293,29 @@ export class UIRenderer {
 
   // 소스 모달
   showSourcesModal() {
-    if (!this.documentSources.length || !this.dom.$.sourcesList) return
+    console.log('showSourcesModal 호출됨');
+    console.log('documentSources:', this.documentSources);
+    console.log('sourcesList 요소:', this.dom.$.sourcesList);
+    console.log('sourcesModal 요소:', this.dom.$.sourcesModal);
+    
+    if (!this.documentSources.length) {
+      console.log('documentSources가 비어있음');
+      return;
+    }
 
-    this.dom.$.sourcesList.innerHTML = this.documentSources
+    // DOM 요소 재확인 (캐시된 요소가 null일 수 있음)
+    const sourcesList = this.dom.$.sourcesList || document.getElementById('sourcesList');
+    const sourcesModal = this.dom.$.sourcesModal || document.getElementById('sourcesModal');
+    
+    if (!sourcesList || !sourcesModal) {
+      console.error('필수 DOM 요소를 찾을 수 없음:', {
+        sourcesList: !!sourcesList,
+        sourcesModal: !!sourcesModal
+      });
+      return;
+    }
+
+    sourcesList.innerHTML = this.documentSources
       .map(
         (source, index) => `
           <div class="flex items-start py-2 border-b border-gray-100 dark:border-gray-700 last:border-0 hover:bg-gray-50 dark:hover:bg-gray-700 rounded px-2 -mx-2 transition-colors">
@@ -309,13 +333,18 @@ export class UIRenderer {
           </div>
         `,
       )
-      .join("")
+      .join("");
 
-    this.dom.show(this.dom.$.sourcesModal)
+    // 모달 표시
+    sourcesModal.classList.remove('hidden');
+    console.log('모달 표시됨');
   }
 
   hideSourcesModal() {
-    this.dom.hide(this.dom.$.sourcesModal)
+    const sourcesModal = this.dom.$.sourcesModal || document.getElementById('sourcesModal');
+    if (sourcesModal) {
+      sourcesModal.classList.add('hidden');
+    }
   }
 
   // 환율 탭 렌더링
@@ -329,7 +358,7 @@ export class UIRenderer {
         <!-- 환전 계산기 섹션 -->
         <div class="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700 mb-4">
           <div class="flex items-center gap-2 mb-4">
-            <div class="w-6 h-6 bg-blue-500 rounded-md flex items-center justify-center">
+            <div class="w-6 h-6 rounded-md flex items-center justify-center">
               <span class="text-white text-xs">🧮</span>
             </div>
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white">환전 계산기</h3>
@@ -690,7 +719,7 @@ export class UIRenderer {
       // 로딩 상태 표시
       container.innerHTML = `
         <div class="text-center p-8 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-          <div class="w-12 h-12 bg-indigo-500 rounded-lg flex items-center justify-center mx-auto mb-4">
+          <div class="w-12 h-12 bg-accent-500 rounded-lg flex items-center justify-center mx-auto mb-4">
             <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
           </div>
           <div class="text-gray-500 dark:text-gray-400 mb-4">항공권 정보를 불러오는 중...</div>
@@ -725,70 +754,57 @@ export class UIRenderer {
       const html = `
         <div class="space-y-4">
           <div class="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
-            <div class="flex items-center gap-2 mb-3">
-              <div class="w-6 h-6 bg-indigo-500 rounded-md flex items-center justify-center">
-                <span class="text-white text-xs">🔍</span>
-              </div>
-              <h3 class="text-base font-semibold text-gray-900 dark:text-white">항공편 검색</h3>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
-              <div>
-                <label class="text-sm font-medium text-gray-700 dark:text-gray-300">출발지</label>
-                <div class="mt-1 p-3 bg-gray-50 dark:bg-gray-700 rounded-md">
-                  <div class="font-medium text-sm">인천국제공항 (ICN)</div>
-                  <div class="text-xs text-gray-500">서울, 대한민국</div>
-                </div>
-              </div>
-              <div>
-                <label class="text-sm font-medium text-gray-700 dark:text-gray-300">도착지</label>
-                <div class="mt-1 p-3 bg-gray-50 dark:bg-gray-700 rounded-md">
-                  <div class="font-medium text-sm">${this.getAirportCode(country)}</div>
-                  <div class="text-xs text-gray-500">${this.api.countryMap[country] || country}</div>
-                </div>
-              </div>
-              <div>
-                <label class="text-sm font-medium text-gray-700 dark:text-gray-300" for="departureDate">출발일</label>
-                <div class="mt-1">
-                  <input 
-                    type="date" 
-                    id="departureDate" 
-                    class="w-full px-3 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors text-sm"
-                    value="${selectedDate}"
-                    min="${new Date().toISOString().split("T")[0]}"
-                  />
-                </div>
-              </div>
-              <div>
-                <label class="text-sm font-medium text-gray-700 dark:text-gray-300" for="returnDate">복귀일 (선택)</label>
-                <div class="mt-1">
-                  <input 
-                    type="date" 
-                    id="returnDate" 
-                    class="w-full px-3 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors text-sm"
-                    value=""
-                    min="${selectedDate}"
-                  />
+          <div class="flex items-center gap-2 mb-4">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">항공편 검색</h3>
+          </div>
+          
+          <div class="grid gap-3 items-end" style="grid-template-columns: 1fr 1fr 1fr 0.5fr;">
+            <!-- 출발지 -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">출발지</label>
+              <div class="p-3 bg-gray-50 dark:bg-gray-700 rounded-md border border-gray-200 dark:border-gray-600">
+                <div class="font-medium text-sm text-gray-900 dark:text-gray-100">인천국제공항 (ICN)
+                  <span class="text-xs text-gray-500 dark:text-gray-400">서울, 대한민국</span>
                 </div>
               </div>
             </div>
-            <div class="mt-4 flex gap-2">
+            
+            <!-- 도착지 -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">도착지</label>
+              <div class="p-3 bg-gray-50 dark:bg-gray-700 rounded-md border border-gray-200 dark:border-gray-600">
+                <div class="font-medium text-sm text-gray-900 dark:text-gray-100">${this.getAirportCode(country)}
+                  <span class="text-xs text-gray-500 dark:text-gray-400">${this.api.countryMap[country] || country}</span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- 출발일 -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" for="departureDate">출발일</label>
+              <input 
+                type="date" 
+                id="departureDate" 
+                class="w-full px-3 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-md text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors text-sm"
+                value="${selectedDate}"
+                min="${new Date().toISOString().split("T")[0]}"
+              />
+            </div>
+            
+            <!-- 검색 버튼 -->
+            <div>
               <button 
                 id="searchFlights" 
-                class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-md font-medium transition-colors flex items-center gap-2 text-sm"
+                class="w-full bg-accent-500 hover:bg-accent-600 text-white px-4 py-3 rounded-md font-medium transition-colors flex items-center justify-center gap-2 text-sm"
               >
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                 </svg>
-                항공편 검색
-              </button>
-              <button 
-                id="clearDates" 
-                class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md font-medium transition-colors text-sm"
-              >
-                날짜 초기화
+                검색
               </button>
             </div>
           </div>
+        </div>
           
           <!-- 항공편 검색 결과 -->
           ${
@@ -827,9 +843,6 @@ export class UIRenderer {
                         <div class="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700 hover:shadow-md transition-all card-hover">
                           <div class="flex items-center justify-between mb-3">
                             <div class="flex items-center gap-3">
-                              <div class="w-10 h-10 bg-indigo-500 rounded-lg flex items-center justify-center">
-                                <span class="text-white font-medium text-sm">${flight.airline?.charAt(0) || "✈️"}</span>
-                              </div>
                               <div>
                                 <h4 class="font-semibold text-gray-900 dark:text-white">${flight.airline || "항공사 정보 없음"}</h4>
                                 <p class="text-sm text-gray-500 dark:text-gray-400">ICN → ${destinationCode}</p>
@@ -905,23 +918,13 @@ export class UIRenderer {
   // 항공편 검색 이벤트 초기화
   initFlightSearchEvents() {
     const departureDate = document.getElementById("departureDate")
-    const returnDate = document.getElementById("returnDate")
     const searchBtn = document.getElementById("searchFlights")
-    const clearBtn = document.getElementById("clearDates")
 
-    if (!departureDate || !returnDate || !searchBtn || !clearBtn) return
+    if (!departureDate || !searchBtn) return
 
-    // 출발일 변경 시 복귀일 최소값 업데이트
+    // 출발일 변경 시 상태에 날짜 저장
     departureDate.addEventListener("change", () => {
       const selectedDate = departureDate.value
-      returnDate.min = selectedDate
-
-      // 복귀일이 출발일보다 빠를 경우 초기화
-      if (returnDate.value && returnDate.value < selectedDate) {
-        returnDate.value = ""
-      }
-
-      // 상태에 날짜 저장
       this.state.set("flightDate", selectedDate)
     })
 
@@ -960,20 +963,9 @@ export class UIRenderer {
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
           </svg>
-          항공편 검색
+          검색
         `
       }
-    })
-
-    // 날짜 초기화 버튼
-    clearBtn.addEventListener("click", () => {
-      const defaultDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split("T")[0]
-      departureDate.value = defaultDate
-      returnDate.value = ""
-      returnDate.min = defaultDate
-
-      // 상태 업데이트
-      this.state.set("flightDate", defaultDate)
     })
   }
 

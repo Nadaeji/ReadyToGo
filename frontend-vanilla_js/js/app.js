@@ -20,6 +20,7 @@ class TravelBotApp {
     this.bindEvents()
     await this.loadInitialData()
     this.ui.updateInterface()
+    this.initEnhancedTabNavigation()
   }
 
   bindEvents() {
@@ -85,31 +86,6 @@ class TravelBotApp {
       }
     })
 
-    // 탭 네비게이션
-    document.getElementById("chatTab")?.addEventListener("click", () => {
-      this.switchTab("chat")
-    })
-
-    document.getElementById("exchangeTab")?.addEventListener("click", () => {
-      this.switchTab("exchange")
-    })
-
-    document.getElementById("weatherTab")?.addEventListener("click", () => {
-      this.switchTab("weather")
-    })
-
-    document.getElementById("flightTab")?.addEventListener("click", () => {
-      this.switchTab("flight")
-    })
-
-    document.getElementById("checklistTab")?.addEventListener("click", () => {
-      this.switchTab("checklist")
-    })
-
-    document.getElementById("communityTab")?.addEventListener("click", () => {
-      this.switchTab("community")
-    })
-
     // 소스 모달
     this.dom.$.sourcesBtn?.addEventListener("click", () => {
       this.ui.showSourcesModal()
@@ -128,6 +104,75 @@ class TravelBotApp {
     // 입력 변화 감지
     this.dom.$.messageInput?.addEventListener("input", () => {
       this.ui.updateInterface()
+    })
+  }
+
+  // 개선된 탭 네비게이션 초기화
+  initEnhancedTabNavigation() {
+    // 탭 버튼 이벤트
+    document.querySelectorAll(".enhanced-tab-button").forEach((button) => {
+      button.addEventListener("click", (e) => {
+        const tabName = button.dataset.tab
+        this.switchTab(tabName)
+      })
+    })
+
+    // 새로고침 버튼
+    document.getElementById("refreshTabBtn")?.addEventListener("click", () => {
+      this.refreshCurrentTab()
+    })
+
+    // 전체화면 버튼
+    document.getElementById("fullscreenBtn")?.addEventListener("click", () => {
+      this.toggleFullscreen()
+    })
+
+    // 더보기 메뉴
+    const moreMenuBtn = document.getElementById("moreMenuBtn")
+    const moreMenu = document.getElementById("moreMenu")
+
+    moreMenuBtn?.addEventListener("click", (e) => {
+      e.stopPropagation()
+      moreMenu.classList.toggle("hidden")
+      moreMenu.classList.toggle("show")
+    })
+
+    // 메뉴 외부 클릭 시 닫기
+    document.addEventListener("click", () => {
+      moreMenu?.classList.add("hidden")
+      moreMenu?.classList.remove("show")
+    })
+
+    // 키보드 단축키
+    document.addEventListener("keydown", (e) => {
+      if (e.ctrlKey || e.metaKey) {
+        switch (e.key) {
+          case "1":
+            e.preventDefault()
+            this.switchTab("chat")
+            break
+          case "2":
+            e.preventDefault()
+            this.switchTab("exchange")
+            break
+          case "3":
+            e.preventDefault()
+            this.switchTab("weather")
+            break
+          case "4":
+            e.preventDefault()
+            this.switchTab("flight")
+            break
+          case "5":
+            e.preventDefault()
+            this.switchTab("checklist")
+            break
+          case "r":
+            e.preventDefault()
+            this.refreshCurrentTab()
+            break
+        }
+      }
     })
   }
 
@@ -188,10 +233,13 @@ class TravelBotApp {
     }
   }
 
-  // 탭 전환 메서드
+  // 개선된 탭 전환 메서드
   switchTab(tabName) {
+    // 진행 표시기 시작
+    this.showTabProgress()
+
     // 모든 탭 버튼 비활성화
-    document.querySelectorAll(".tab-button").forEach((btn) => {
+    document.querySelectorAll(".enhanced-tab-button").forEach((btn) => {
       btn.classList.remove("active")
     })
 
@@ -210,8 +258,46 @@ class TravelBotApp {
       activeTabContent.classList.remove("hidden")
       activeTabContent.classList.add("active")
 
+      // 현재 탭 상태 저장
+      this.state.set("currentTab", tabName)
+
       // 탭별 데이터 로드
       this.loadTabContent(tabName)
+    }
+  }
+
+  // 탭 진행 표시기
+  showTabProgress() {
+    const progressBar = document.querySelector(".tab-progress-bar")
+    if (progressBar) {
+      progressBar.classList.add("loading")
+      setTimeout(() => {
+        progressBar.classList.remove("loading")
+      }, 1000)
+    }
+  }
+
+  // 현재 탭 새로고침
+  refreshCurrentTab() {
+    const currentTab = this.state.get("currentTab") || "chat"
+    this.loadTabContent(currentTab)
+
+    // 새로고침 버튼 애니메이션
+    const refreshBtn = document.getElementById("refreshTabBtn")
+    if (refreshBtn) {
+      refreshBtn.style.transform = "rotate(360deg)"
+      setTimeout(() => {
+        refreshBtn.style.transform = "rotate(0deg)"
+      }, 500)
+    }
+  }
+
+  // 전체화면 토글
+  toggleFullscreen() {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen()
+    } else {
+      document.exitFullscreen()
     }
   }
 
@@ -232,9 +318,6 @@ class TravelBotApp {
         break
       case "checklist":
         await this.ui.renderChecklists()
-        break
-      case "community":
-        await this.ui.renderCommunity()
         break
     }
   }
@@ -321,4 +404,12 @@ ${post.content}
 // 앱 초기화
 document.addEventListener("DOMContentLoaded", () => {
   window.travelBotApp = new TravelBotApp()
+  
+  // 개발용: 전역 함수 노출
+  window.testSourcesModal = () => {
+    if (window.travelBotApp && window.travelBotApp.ui) {
+      console.log('테스트용 showSourcesModal 호출');
+      window.travelBotApp.ui.showSourcesModal();
+    }
+  };
 })

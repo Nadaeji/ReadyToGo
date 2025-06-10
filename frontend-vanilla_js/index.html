@@ -61,12 +61,14 @@
             <!-- 헤더 -->
             <div class="flex items-center justify-between mb-2">
                 <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 rounded-lg flex items-center justify-center">
-                        <img src="assets/mascot.png" alt="마스코트" class="w-10 h-10" onerror="this.style.display='none'">
-                        <span class="text-white font-medium text-sm" style="display: none;">✈️</span>
+                    <div class="w-9 h-9 rounded-lg flex items-center justify-center">
+                        <svg fill="#000000" viewBox="0 0 512 512" version="1.1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="airplane-travel-heart-love-valentine"> <path d="M463.84,267.92L456,264h-52c-6.64,0-12-5.36-12-12c0-6.64,5.36-12,12-12h23.2l-9.6-12c-6.08-7.6-15.28-12-24.96-12H320 l-80.16-50.96c-5.12-3.28-11.04-5.04-17.12-5.04h-19.44c-7.12,0-10.64,8.64-5.6,13.68L240,216H104l-29.68-52 c-1.44-2.48-4.08-4-6.96-4h-18.4c-4.8,0-8.48,4.16-8,8.88l5.84,52c0.8,7.2,4.08,14,9.2,19.12l20,20l-22.32,22.32 c-5.04,5.04-1.52,13.68,5.6,13.68h11.84c5.84,0,11.52-1.6,16.48-4.56c16.905-10.205,3.989-2.441,65.52-39.36 c3.84-2.24,8.72-1.04,10.96,2.8c2.436,3.898,0.974,8.696-2.72,10.96l-44.16,26.48c6.72,2.4,13.92,3.68,21.28,3.68H240l-42.32,42.32 c-5.04,5.04-1.52,13.68,5.6,13.68h18.48c6.64,0,13.12-2.08,18.56-6c84.228-60.094,63.133-45.041,97.2-69.36 c3.52-2.56,8.56-1.76,11.12,1.84c2.673,3.701,1.679,8.723-1.84,11.2l-8.88,6.32H457.2c8.16,0,14.8-6.64,14.8-14.8v-0.08 C472,275.52,468.8,270.4,463.84,267.92z M200,248c0,4.422-3.578,8-8,8s-8-3.578-8-8v-8c0-4.422,3.578-8,8-8s8,3.578,8,8V248z M232,248c0,4.422-3.578,8-8,8s-8-3.578-8-8v-8c0-4.422,3.578-8,8-8s8,3.578,8,8V248z M264,248c0,4.422-3.578,8-8,8s-8-3.578-8-8 v-8c0-4.422,3.578-8,8-8s8,3.578,8,8V248z M296,248c0,4.422-3.578,8-8,8s-8-3.578-8-8v-8c0-4.422,3.578-8,8-8s8,3.578,8,8V248z M328,248c0,4.422-3.578,8-8,8s-8-3.578-8-8v-8c0-4.422,3.578-8,8-8s8,3.578,8,8V248z M360,248c0,4.422-3.578,8-8,8s-8-3.578-8-8 v-8c0-4.422,3.578-8,8-8s8,3.578,8,8V248z M153.68,137.666l-19.952,20.461c-3.14,3.22-8.315,3.22-11.455,0l-19.952-20.46 c-7.017-7.196-8.387-18.748-2.105-26.594c7.145-8.922,20.022-9.403,27.784-1.442c7.763-7.96,20.639-7.48,27.784,1.442 C162.067,118.917,160.697,130.47,153.68,137.666z M409.68,381.666l-19.952,20.461c-3.14,3.22-8.315,3.22-11.455,0l-19.952-20.46 c-7.017-7.196-8.387-18.748-2.104-26.594c7.145-8.922,20.022-9.403,27.784-1.442c7.763-7.96,20.639-7.48,27.784,1.442 C418.067,362.917,416.697,374.47,409.68,381.666z"></path> </g> <g id="Layer_1"></g> </g></svg>
+                        <!-- <span class="text-white font-medium text-sm">✈️</span> -->
                     </div>
                     <div>
-                        <h1 class="text-lg font-semibold text-gray-900 dark:text-white">Ready To Go</h1>
+                        <h1 class="text-lg font-semibold text-gray-900 dark:text-white">Ready
+                            <span class="text-accent-500 font-semibold"> To Go</span>
+                        </h1>
                         <p class="text-xs text-gray-500 dark:text-gray-400">AI 여행 어시스턴트</p>
                     </div>
                 </div>
@@ -134,28 +136,82 @@
         <main id="mainContent" class="flex-1 flex flex-col p-3 min-h-screen">
             <div id="contentContainer" class="w-full max-w-5xl mx-auto flex flex-col gap-3 h-full">
                 
-                <!-- 탭 네비게이션 -->
-                <nav class="flex items-center gap-1 bg-white dark:bg-gray-800 rounded-lg p-1 border border-gray-200 dark:border-gray-700 shadow-sm overflow-x-auto flex-shrink-0">
-                    <button id="chatTab" class="tab-button active flex items-center gap-2 px-3 py-2 rounded-md font-medium text-sm transition-all whitespace-nowrap">
-                        <span class="text-sm">💬</span>
-                        채팅
-                    </button>
-                    <button id="exchangeTab" class="tab-button flex items-center gap-2 px-3 py-2 rounded-md font-medium text-sm transition-all whitespace-nowrap">
-                        <span class="text-sm">💱</span>
-                        환율
-                    </button>
-                    <button id="weatherTab" class="tab-button flex items-center gap-2 px-3 py-2 rounded-md font-medium text-sm transition-all whitespace-nowrap">
-                        <span class="text-sm">🌤️</span>
-                        날씨
-                    </button>
-                    <button id="flightTab" class="tab-button flex items-center gap-2 px-3 py-2 rounded-md font-medium text-sm transition-all whitespace-nowrap">
-                        <span class="text-sm">✈️</span>
-                        항공권
-                    </button>
-                    <button id="checklistTab" class="tab-button flex items-center gap-2 px-3 py-2 rounded-md font-medium text-sm transition-all whitespace-nowrap">
-                        <span class="text-sm">📝</span>
-                        체크리스트
-                    </button>
+                <!-- 개선된 탭 네비게이션 -->
+                <nav class="enhanced-tab-nav bg-white dark:bg-gray-800 rounded-xl p-2 border border-gray-200 dark:border-gray-700 shadow-lg backdrop-blur-sm flex-shrink-0">
+                    <div class="flex items-center justify-between">
+                        <!-- 메인 탭들 -->
+                        <div class="flex items-center gap-1 overflow-x-auto scrollbar-hide">
+                            <button id="chatTab" class="enhanced-tab-button active" data-tab="chat">
+                                <div class="tab-icon">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                                    </svg>
+                                </div>
+                                <span class="tab-label">AI 채팅</span>
+                                <div class="tab-indicator"></div>
+                            </button>
+                            
+                            <button id="exchangeTab" class="enhanced-tab-button" data-tab="exchange">
+                                <div class="tab-icon">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                                    </svg>
+                                </div>
+                                <span class="tab-label">환율</span>
+                                <div class="tab-indicator"></div>
+                            </button>
+                            
+                            <button id="weatherTab" class="enhanced-tab-button" data-tab="weather">
+                                <div class="tab-icon">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path>
+                                    </svg>
+                                </div>
+                                <span class="tab-label">날씨</span>
+                                <div class="tab-indicator"></div>
+                            </button>
+                            
+                            <button id="flightTab" class="enhanced-tab-button" data-tab="flight">
+                                <div class="tab-icon">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                                    </svg>
+                                </div>
+                                <span class="tab-label">항공권</span>
+                                <div class="tab-indicator"></div>
+                            </button>
+                            
+                            <button id="checklistTab" class="enhanced-tab-button" data-tab="checklist">
+                                <div class="tab-icon">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+                                    </svg>
+                                </div>
+                                <span class="tab-label">체크리스트</span>
+                                <div class="tab-indicator"></div>
+                            </button>
+                        </div>
+                        
+                        <!-- 탭 액션 버튼들 -->
+                        <div class="flex items-center gap-2 ml-4">
+                            <!-- 새로고침 버튼 -->
+                            <button id="refreshTabBtn" class="tab-action-btn" title="새로고침">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                                </svg>
+                            </button>
+                            
+                            <!-- 전체화면 버튼 -->
+                            <button id="fullscreenBtn" class="tab-action-btn" title="전체화면">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- 탭 진행 표시기 -->
+                    <div class="tab-progress-bar"></div>
                 </nav>
 
                 <!-- 탭 컨텐츠 영역 -->
@@ -244,12 +300,6 @@
                     <!-- 다른 탭들 -->
                     <div id="exchangeTabContent" class="tab-content hidden">
                         <section id="exchangeSection" class="w-full animate-fade-in">
-                            <div class="flex items-center gap-2 mb-4">
-                                <div class="w-6 h-6 rounded-md flex items-center justify-center">
-                                    <span class="text-white">💱</span>
-                                </div>
-                                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">실시간 환율 정보</h2>
-                            </div>
                             <div id="exchangeContent" class="space-y-4">
                                 <!-- 환율 정보가 여기에 렌더링됩니다 -->
                             </div>
@@ -258,12 +308,6 @@
 
                     <div id="weatherTabContent" class="tab-content hidden">
                         <section id="weatherSection" class="w-full animate-fade-in">
-                            <div class="flex items-center gap-2 mb-4">
-                                <div class="w-6 h-6 rounded-md flex items-center justify-center">
-                                    <span class="text-white">🌤️</span>
-                                </div>
-                                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">날씨 정보</h2>
-                            </div>
                             <div id="weatherContent" class="space-y-4">
                                 <!-- 날씨 정보가 여기에 렌더링됩니다 -->
                             </div>
@@ -272,12 +316,6 @@
 
                     <div id="flightTabContent" class="tab-content hidden">
                         <section id="flightSection" class="w-full animate-fade-in">
-                            <div class="flex items-center gap-2 mb-4">
-                                <div class="w-6 h-6 rounded-md flex items-center justify-center">
-                                    <span class="text-white text-xs">✈️</span>
-                                </div>
-                                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">항공권 정보</h2>
-                            </div>
                             <div id="flightContent" class="space-y-4">
                                 <!-- 항공권 정보가 여기에 렌더링됩니다 -->
                             </div>
@@ -286,12 +324,6 @@
 
                     <div id="checklistTabContent" class="tab-content hidden">
                         <section id="checklistSection" class="w-full animate-fade-in">
-                            <div class="flex items-center gap-2 mb-4">
-                                <div class="w-6 h-6 rounded-md flex items-center justify-center">
-                                    <span class="text-white">📝</span>
-                                </div>
-                                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">체크리스트</h2>
-                            </div>
                             <div id="checklistList" class="space-y-3">
                                 <!-- 체크리스트들이 여기에 동적으로 추가됩니다 -->
                             </div>
@@ -302,7 +334,23 @@
         </main>
     </div>
 
-    <!-- 모달들과 스크립트는 원래 파일과 동일하게 유지 -->
+    <!-- Sources Modal -->
+    <div id="sourcesModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-2xl w-full mx-4 max-h-[80vh] overflow-hidden flex flex-col">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">참고 문서</h3>
+                <button id="closeSourcesModal" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div id="sourcesList" class="flex-1 overflow-y-auto">
+                <!-- 소스 목록이 여기에 동적으로 추가됩니다 -->
+            </div>
+        </div>
+    </div>
+
     <script type="module" src="js/app.js"></script>
 </body>
 </html>
