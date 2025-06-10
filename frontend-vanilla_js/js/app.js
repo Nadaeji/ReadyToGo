@@ -81,6 +81,19 @@ class TravelBotApp {
             }
         });
 
+        // 신규 기능 버튼들
+        this.dom.$.realtimeBtn?.addEventListener('click', () => {
+            this.toggleSection('realtime');
+        });
+
+        this.dom.$.checklistBtn?.addEventListener('click', () => {
+            this.toggleSection('checklist');
+        });
+
+        this.dom.$.communityBtn?.addEventListener('click', () => {
+            this.toggleSection('community');
+        });
+
         // 소스 모달
         this.dom.$.sourcesBtn?.addEventListener('click', () => {
             this.ui.showSourcesModal();
@@ -157,6 +170,108 @@ class TravelBotApp {
             this.ui.hideLoading();
             this.ui.renderChat();
             this.ui.updateInterface();
+        }
+    }
+
+    toggleSection(sectionType) {
+        // 모든 섹션 숨기기
+        this.dom.hide(this.dom.$.realtimeSection);
+        this.dom.hide(this.dom.$.checklistSection);
+        this.dom.hide(this.dom.$.communitySection);
+        this.dom.hide(this.dom.$.faqSection);
+        
+        // 선택된 섹션 보이기 및 렌더링
+        switch(sectionType) {
+            case 'realtime':
+                this.dom.show(this.dom.$.realtimeSection);
+                this.ui.renderRealtimeInfo();
+                break;
+            case 'checklist':
+                this.dom.show(this.dom.$.checklistSection);
+                this.ui.renderChecklists();
+                break;
+            case 'community':
+                this.dom.show(this.dom.$.communitySection);
+                this.ui.renderCommunity();
+                break;
+        }
+    }
+
+    // 커뮤니티 관련 메서드들
+    showPostForm() {
+        // 간단한 프롬프트로 게시글 작성
+        const title = prompt('게시글 제목을 입력하세요:');
+        if (!title) return;
+        
+        const content = prompt('게시글 내용을 입력하세요:');
+        if (!content) return;
+        
+        const postType = prompt('게시글 유형을 선택하세요 (review/question/tip/info):') || 'info';
+        
+        this.createPost({
+            title,
+            content,
+            post_type: postType,
+            country: this.state.get('country') || 'general',
+            topic: this.state.get('topic') || 'general',
+            author_name: prompt('작성자 이름:') || '익명'
+        });
+    }
+    
+    async createPost(postData) {
+        try {
+            await this.api.createCommunityPost(postData);
+            alert('게시글이 작성되었습니다!');
+            this.ui.renderCommunity(); // 게시글 목록 새로고침
+        } catch (error) {
+            console.error('게시글 작성 실패:', error);
+            alert('게시글 작성에 실패했습니다.');
+        }
+    }
+
+    async showPostDetail(postId) {
+        try {
+            const post = await this.api.getCommunityPostDetail(postId);
+            
+            // 간단한 alert로 게시글 상세 보기 (실제로는 모달이나 새 페이지로 구현)
+            const message = `
+제목: ${post.title}
+작성자: ${post.author_name}
+날짜: ${new Date(post.created_at).toLocaleString()}
+조회수: ${post.views} | 좋아요: ${post.likes}
+
+내용:
+${post.content}
+
+댓글 ${post.comments.length}개
+            `;
+            alert(message);
+        } catch (error) {
+            console.error('게시글 상세 보기 실패:', error);
+        }
+    }
+
+    async showChecklistDetail(checklistId) {
+        try {
+            const checklist = await this.api.getChecklistDetail(checklistId);
+            
+            // 체크리스트 상세 보기
+            let message = `${checklist.name}\n\n${checklist.description}\n\n체크리스트 항목들:\n\n`;
+            
+            checklist.items.forEach((item, index) => {
+                message += `${index + 1}. ${item.title}${item.is_required ? ' (필수)' : ' (선택)'}\n`;
+                if (item.description) {
+                    message += `   - ${item.description}\n`;
+                }
+                if (item.estimated_time) {
+                    message += `   - 예상 소요시간: ${item.estimated_time}\n`;
+                }
+                message += '\n';
+            });
+            
+            alert(message);
+        } catch (error) {
+            console.error('체크리스트 상세 보기 실패:', error);
         }
     }
 }

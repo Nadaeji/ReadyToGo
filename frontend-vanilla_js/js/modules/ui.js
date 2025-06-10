@@ -203,6 +203,233 @@ export class UIRenderer {
         this.dom.hide(this.dom.$.sourcesModal);
     }
 
+    // 실시간 정보 렌더링
+    async renderRealtimeInfo() {
+        try {
+            const country = this.state.get('country');
+            if (!country) {
+                this.dom.hide(this.dom.$.realtimeSection);
+                return;
+            }
+
+            this.dom.show(this.dom.$.realtimeSection);
+
+            // 환율 정보
+            const exchangeData = await this.api.getExchangeRates();
+            this.renderExchangeRates(exchangeData);
+
+            // 날씨 정보
+            const weatherData = await this.api.getWeatherInfo(country);
+            this.renderWeatherInfo(weatherData);
+
+            // 대사관 공지
+            const noticesData = await this.api.getEmbassyNotices(country, null, 5);
+            this.renderEmbassyNotices(noticesData);
+
+        } catch (error) {
+            console.error('실시간 정보 렌더링 실패:', error);
+        }
+    }
+
+    renderExchangeRates(data) {
+        if (!this.dom.$.exchangeRates || !data.rates) return;
+
+        const html = `
+            <div class="bg-white rounded-lg p-4 shadow">
+                <h3 class="text-lg font-bold mb-3">환율 정보</h3>
+                <div class="grid grid-cols-2 gap-2">
+                    ${Object.entries(data.rates).map(([currency, info]) => `
+                        <div class="flex justify-between">
+                            <span class="font-medium">${currency}:</span>
+                            <span>${info.rate ? info.rate.toFixed(2) : 'N/A'}</span>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="text-xs text-gray-500 mt-2">
+                    기준: ${data.base_currency}
+                </div>
+            </div>
+        `;
+        this.dom.$.exchangeRates.innerHTML = html;
+    }
+
+    renderWeatherInfo(data) {
+        if (!this.dom.$.weatherInfo || !data.weather_info || data.weather_info.length === 0) return;
+
+        const weather = data.weather_info[0]; // 첫 번째 도시 정보
+        const html = `
+            <div class="bg-white rounded-lg p-4 shadow">
+                <h3 class="text-lg font-bold mb-3">날씨 정보</h3>
+                <div class="text-center">
+                    <div class="text-2xl font-bold">${weather.temperature}°C</div>
+                    <div class="text-gray-600">${weather.city}, ${weather.country}</div>
+                    <div class="text-sm text-gray-500">${weather.description}</div>
+                    <div class="text-xs text-gray-400 mt-2">습도: ${weather.humidity}%</div>
+                </div>
+            </div>
+        `;
+        this.dom.$.weatherInfo.innerHTML = html;
+    }
+
+    renderEmbassyNotices(data) {
+        if (!this.dom.$.embassyNotices || !data.notices) return;
+
+        const html = `
+            <div class="bg-white rounded-lg p-4 shadow">
+                <h3 class="text-lg font-bold mb-3">대사관 공지</h3>
+                <div class="space-y-2">
+                    ${data.notices.map(notice => `
+                        <div class="border-l-4 ${
+                            notice.importance === 'high' ? 'border-red-500' :
+                            notice.importance === 'medium' ? 'border-yellow-500' :
+                            'border-blue-500'
+                        } pl-3">
+                            <div class="font-medium text-sm">${notice.title}</div>
+                            <div class="text-xs text-gray-500">${new Date(notice.notice_date).toLocaleDateString()}</div>
+                            <a href="${notice.url}" target="_blank" class="text-blue-600 text-xs hover:underline">자세히 보기</a>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+        this.dom.$.embassyNotices.innerHTML = html;
+    }
+
+    // 체크리스트 렌더링
+    async renderChecklists() {
+        try {
+            const country = this.state.get('country');
+            const topic = this.state.get('topic');
+            
+            if (!country || !topic) {
+                this.dom.hide(this.dom.$.checklistSection);
+                return;
+            }
+
+            this.dom.show(this.dom.$.checklistSection);
+
+            const data = await this.api.getChecklists(country, topic);
+            this.renderChecklistList(data.checklists || []);
+
+        } catch (error) {
+            console.error('체크리스트 렌더링 실패:', error);
+        }
+    }
+
+    renderChecklistList(checklists) {
+        if (!this.dom.$.checklistList) return;
+
+        if (checklists.length === 0) {
+            this.dom.$.checklistList.innerHTML = '<div class="text-gray-500 text-center p-4">해당 조건의 체크리스트가 없습니다.</div>';
+            return;
+        }
+
+        const html = checklists.map(checklist => `
+            <div class="bg-white rounded-lg p-4 shadow cursor-pointer hover:shadow-md transition-shadow" 
+                 onclick="window.travelBotApp.showChecklistDetail(${checklist.id})">
+                <h4 class="font-bold text-lg mb-2">${checklist.name}</h4>
+                <p class="text-gray-600 text-sm mb-3">${checklist.description}</p>
+                <div class="flex justify-between items-center text-sm">
+                    <span class="text-blue-600">전체 ${checklist.items_count}개 항목</span>
+                    <span class="text-red-600">필수 ${checklist.required_items_count}개</span>
+                </div>
+            </div>
+        `).join('');
+        
+        this.dom.$.checklistList.innerHTML = html;
+    }
+
+    // 커뮤니티 렌더링
+    async renderCommunity() {
+        try {
+            const country = this.state.get('country');
+            const topic = this.state.get('topic');
+            
+            this.dom.show(this.dom.$.communitySection);
+
+            const filters = {};
+            if (country) filters.country = country;
+            if (topic) filters.topic = topic;
+            filters.limit = 10;
+            filters.sort = 'recent';
+
+            const data = await this.api.getCommunityPosts(filters);
+            this.renderCommunityPosts(data.posts || []);
+
+        } catch (error) {
+            console.error('커뮤니티 렌더링 실패:', error);
+        }
+    }
+
+    renderCommunityPosts(posts) {
+        if (!this.dom.$.communityPosts) return;
+
+        if (posts.length === 0) {
+            this.dom.$.communityPosts.innerHTML = `
+                <div class="text-center p-8">
+                    <div class="text-gray-500 mb-4">아직 작성된 게시글이 없습니다.</div>
+                    <button onclick="window.travelBotApp.showPostForm()" 
+                            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                        첫 번째 게시글 작성하기
+                    </button>
+                </div>
+            `;
+            return;
+        }
+
+        const html = `
+            <div class="mb-4">
+                <button onclick="window.travelBotApp.showPostForm()" 
+                        class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                    새 게시글 작성
+                </button>
+            </div>
+            <div class="space-y-4">
+                ${posts.map(post => this.renderCommunityPost(post)).join('')}
+            </div>
+        `;
+        
+        this.dom.$.communityPosts.innerHTML = html;
+    }
+
+    renderCommunityPost(post) {
+        const typeColors = {
+            'review': 'bg-green-100 text-green-800',
+            'question': 'bg-blue-100 text-blue-800',
+            'tip': 'bg-yellow-100 text-yellow-800',
+            'info': 'bg-purple-100 text-purple-800'
+        };
+
+        const typeColor = typeColors[post.post_type] || 'bg-gray-100 text-gray-800';
+
+        return `
+            <div class="bg-white rounded-lg p-4 shadow hover:shadow-md transition-shadow cursor-pointer"
+                 onclick="window.travelBotApp.showPostDetail(${post.id})">
+                <div class="flex items-start justify-between mb-2">
+                    <div class="flex items-center space-x-2">
+                        <span class="px-2 py-1 text-xs rounded ${typeColor}">
+                            ${post.post_type_display}
+                        </span>
+                        ${post.rating ? `<div class="text-yellow-500">${'⭐'.repeat(post.rating)}</div>` : ''}
+                    </div>
+                    <div class="text-xs text-gray-500">
+                        ${new Date(post.created_at).toLocaleDateString()}
+                    </div>
+                </div>
+                <h3 class="font-bold text-lg mb-2">${post.title}</h3>
+                <p class="text-gray-600 text-sm mb-3">${post.content}</p>
+                <div class="flex items-center justify-between text-xs text-gray-500">
+                    <div class="flex items-center space-x-4">
+                        <span>👀 ${post.views}</span>
+                        <span>❤️ ${post.likes}</span>
+                        <span>💬 ${post.comments_count}</span>
+                    </div>
+                    <span class="font-medium">${post.author_name}</span>
+                </div>
+            </div>
+        `;
+    }
+
     getDomain(url) {
         try {
             return new URL(url).hostname.replace('www.', '');

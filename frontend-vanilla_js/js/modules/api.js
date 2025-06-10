@@ -218,4 +218,81 @@ export class APIManager {
     async searchDocuments(query, limit = 20) {
         return await this.call(`/documents/search/?q=${encodeURIComponent(query)}&limit=${limit}`);
     }
+
+    // 실시간 정보 API
+    async getExchangeRates(baseCurrency = 'KRW', targetCurrencies = 'USD,JPY,EUR,GBP') {
+        return await this.call(`/realtime/exchange-rates/?base=${baseCurrency}&targets=${targetCurrencies}`);
+    }
+
+    async getWeatherInfo(country, city = null) {
+        let url = `/realtime/weather/?country=${country}`;
+        if (city) {
+            url += `&city=${city}`;
+        }
+        return await this.call(url);
+    }
+
+    async getEmbassyNotices(country = null, importance = null, limit = 10) {
+        let url = `/realtime/embassy-notices/?limit=${limit}`;
+        if (country) url += `&country=${country}`;
+        if (importance) url += `&importance=${importance}`;
+        return await this.call(url);
+    }
+
+    async getFlightTrends(origin = 'ICN', destination = 'LAX') {
+        return await this.call(`/realtime/flight-trends/?origin=${origin}&destination=${destination}`);
+    }
+
+    // 체크리스트 API
+    async getChecklists(country = null, topic = null) {
+        let url = '/checklist/';
+        const params = new URLSearchParams();
+        if (country) params.append('country', country);
+        if (topic) params.append('topic', topic);
+        if (params.toString()) url += '?' + params.toString();
+        return await this.call(url);
+    }
+
+    async getChecklistDetail(checklistId) {
+        return await this.call(`/checklist/${checklistId}/`);
+    }
+
+    // 커뮤니티 API
+    async getCommunityPosts(filters = {}) {
+        const params = new URLSearchParams();
+        if (filters.type) params.append('type', filters.type);
+        if (filters.country) params.append('country', filters.country);
+        if (filters.topic) params.append('topic', filters.topic);
+        if (filters.page) params.append('page', filters.page);
+        if (filters.limit) params.append('limit', filters.limit);
+        if (filters.sort) params.append('sort', filters.sort);
+        
+        const url = '/community/posts/' + (params.toString() ? '?' + params.toString() : '');
+        return await this.call(url);
+    }
+
+    async getCommunityPostDetail(postId) {
+        return await this.call(`/community/posts/${postId}/`);
+    }
+
+    async createCommunityPost(postData) {
+        return await this.call('/community/posts/create/', {
+            method: 'POST',
+            body: JSON.stringify(postData)
+        });
+    }
+
+    async createComment(postId, commentData) {
+        return await this.call(`/community/posts/${postId}/comments/`, {
+            method: 'POST',
+            body: JSON.stringify(commentData)
+        });
+    }
+
+    async toggleLike(postId = null, commentId = null) {
+        return await this.call('/community/like/', {
+            method: 'POST',
+            body: JSON.stringify({ post_id: postId, comment_id: commentId })
+        });
+    }
 }

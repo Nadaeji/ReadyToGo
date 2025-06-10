@@ -34,6 +34,9 @@ LOCAL_APPS = [
     'core',
     'chat',
     'documents',
+    'realtime_info',
+    'checklist',
+    'community',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -161,6 +164,10 @@ TOP_K_RESULTS = 5
 
 # GPU AI 서버 설정
 GPU_AI_SERVER_URL = "https://9c6b-34-168-217-150.ngrok-free.app"  # 실제 GPU 서버 IP로 변경
+
+# 실시간 정보 API 키
+FIXER_API_KEY = os.getenv('FIXER_API_KEY', '')  # 환율 API
+OPENWEATHER_API_KEY = os.getenv('OPENWEATHER_API_KEY', '')  # 날씨 API
 
 # Document Processing
 CHUNK_SIZE = 1000

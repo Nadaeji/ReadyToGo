@@ -32,7 +32,30 @@ export class DOMManager {
             sourcesCount: document.getElementById('sourcesCount'),
             sourcesModal: document.getElementById('sourcesModal'),
             sourcesList: document.getElementById('sourcesList'),
-            closeSourcesModal: document.getElementById('closeSourcesModal')
+            closeSourcesModal: document.getElementById('closeSourcesModal'),
+
+            // 신규 기능 버튼
+            realtimeBtn: document.getElementById('realtimeBtn'),
+            checklistBtn: document.getElementById('checklistBtn'),
+            communityBtn: document.getElementById('communityBtn'),
+
+            // 실시간 정보 영역
+            realtimeSection: document.getElementById('realtimeSection'),
+            exchangeRates: document.getElementById('exchangeRates'),
+            weatherInfo: document.getElementById('weatherInfo'),
+            embassyNotices: document.getElementById('embassyNotices'),
+
+            // 체크리스트 영역
+            checklistSection: document.getElementById('checklistSection'),
+            checklistList: document.getElementById('checklistList'),
+
+            // 커뮤니티 영역
+            communitySection: document.getElementById('communitySection'),
+            communityPosts: document.getElementById('communityPosts'),
+            postForm: document.getElementById('postForm'),
+            postModal: document.getElementById('postModal'),
+            createPostBtn: document.getElementById('createPostBtn'),
+            closePostModal: document.getElementById('closePostModal')
         };
     }
 

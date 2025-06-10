@@ -68,6 +68,108 @@ class FAQ(BaseModel):
     def __str__(self):
         return f"{self.country} - {self.topic}: {self.question[:50]}..."
 
+# 체크리스트 모델
+class ChecklistTemplate(BaseModel):
+    """체크리스트 템플릿"""
+    name = models.CharField(max_length=200)
+    country = models.CharField(max_length=100, db_index=True)
+    topic = models.CharField(max_length=100, db_index=True)  # visa, travel_prep 등
+    description = models.TextField(blank=True)
+    
+    class Meta:
+        db_table = 'checklist_templates'
+        
+    def __str__(self):
+        return f"{self.country} - {self.topic}: {self.name}"
+
+class ChecklistItem(BaseModel):
+    """체크리스트 항목"""
+    template = models.ForeignKey(ChecklistTemplate, on_delete=models.CASCADE, related_name='items')
+    title = models.CharField(max_length=300)
+    description = models.TextField(blank=True)
+    is_required = models.BooleanField(default=True)
+    order = models.IntegerField(default=0)
+    estimated_time = models.CharField(max_length=50, blank=True)  # "1-2주", "1일" 등
+    
+    class Meta:
+        db_table = 'checklist_items'
+        ordering = ['order', 'id']
+        
+    def __str__(self):
+        return f"{self.template.name}: {self.title}"
+
+# 커뮤니티 모델
+class CommunityPost(BaseModel):
+    """커뮤니티 게시글"""
+    POST_TYPES = [
+        ('review', '후기'),
+        ('question', '질문'),
+        ('tip', '여행팁'),
+        ('info', '정보공유')
+    ]
+    
+    title = models.CharField(max_length=300)
+    content = models.TextField()
+    post_type = models.CharField(max_length=20, choices=POST_TYPES)
+    country = models.CharField(max_length=100, db_index=True)
+    topic = models.CharField(max_length=100, db_index=True)
+    
+    # 익명 사용자 정보
+    author_name = models.CharField(max_length=50, default='익명')
+    author_session = models.CharField(max_length=100, db_index=True)  # 세션 기반 작성자 추적
+    
+    # 통계
+    views = models.IntegerField(default=0)
+    likes = models.IntegerField(default=0)
+    
+    # 후기용 필드
+    rating = models.IntegerField(null=True, blank=True, choices=[
+        (1, '⭐'), (2, '⭐⭐'), (3, '⭐⭐⭐'), (4, '⭐⭐⭐⭐'), (5, '⭐⭐⭐⭐⭐')
+    ])
+    
+    class Meta:
+        db_table = 'community_posts'
+        ordering = ['-created_at']
+        
+    def __str__(self):
+        return f"[{self.get_post_type_display()}] {self.title[:50]}..."
+
+class CommunityComment(BaseModel):
+    """커뮤니티 댓글"""
+    post = models.ForeignKey(CommunityPost, on_delete=models.CASCADE, related_name='comments')
+    content = models.TextField()
+    author_name = models.CharField(max_length=50, default='익명')
+    author_session = models.CharField(max_length=100, db_index=True)
+    
+    # 대댓글 지원
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='replies')
+    
+    likes = models.IntegerField(default=0)
+    
+    class Meta:
+        db_table = 'community_comments'
+        ordering = ['created_at']
+        
+    def __str__(self):
+        return f"{self.post.title}: {self.content[:30]}..."
+
+class PostLike(BaseModel):
+    """게시글/댓글 좋아요"""
+    post = models.ForeignKey(CommunityPost, on_delete=models.CASCADE, null=True, blank=True)
+    comment = models.ForeignKey(CommunityComment, on_delete=models.CASCADE, null=True, blank=True)
+    user_session = models.CharField(max_length=100)
+    
+    class Meta:
+        db_table = 'post_likes'
+        unique_together = [
+            ['post', 'user_session'],
+            ['comment', 'user_session']
+        ]
+        
+    def __str__(self):
+        target = self.post.title if self.post else self.comment.content[:30]
+        return f"Like: {target}..."
+
 # 자주 사용하는 값들
 COUNTRIES = [
     {"emoji": "🇺🇸", "name_kr": "미국", "name_en": "America"},
