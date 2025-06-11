@@ -179,13 +179,58 @@ models = [
 Primary Model → Fallback Model → Error Handling
 ```
 
+### 시스템 구성도
+
+```mermaid
+graph TB
+    subgraph "클라이언트"
+        사용자 --> 브라우저[웹 브라우저]
+    end
+
+    subgraph "AWS EC2 서버"
+        브라우저 --> 프론트엔드[프론트엔드<br/>Vanilla JS]
+        프론트엔드 --> 백엔드[Django 서버]
+        
+        백엔드 --> 실시간api조회[실시간 API 조회<br/>날씨, 환율, 항공권]
+        백엔드 --> AI서비스
+        
+        백엔드 --> 데이터베이스[(MySQL)]
+        
+        subgraph "AI 채팅 서비스"
+            AI서비스 --> LLM
+            LLM --> OpenAI
+            LLM --> Gemini
+            LLM --> Phi-2[Phi-2<br/>파인튜닝 모델]
+            AI서비스 --> RAG
+            RAG --> 벡터DB[(ChromaDB)]
+        end
+    end
+
+    %% 스타일 정의
+    classDef client fill:#e1f5fe,stroke:#01579b,stroke-width:2px,color:#000
+    classDef aws fill:#fff3e0,stroke:#e65100,stroke-width:2px,color:#000
+    classDef frontend fill:#f3e5f5,stroke:#4a148c,stroke-width:2px,color:#000
+    classDef backend fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px,color:#000
+    classDef database fill:#fff8e1,stroke:#f57f17,stroke-width:2px,color:#000
+    classDef ai fill:#fce4ec,stroke:#c2185b,stroke-width:2px,color:#000
+    classDef external fill:#f1f8e9,stroke:#558b2f,stroke-width:2px,color:#000
+
+    %% 클래스 적용
+    class 사용자,브라우저 client
+    class 프론트엔드 frontend
+    class 백엔드,실시간api조회 backend
+    class 데이터베이스,벡터DB database
+    class AI서비스,LLM,RAG ai
+    class OpenAI,Gemini,Phi-2 external
+```
+
+
 ### 데이터 워크플로우
 
 ```mermaid
 graph TD
     A[사용자 질문] --> B[한국어 → 영어 번역]
-    B --> C[ChromaDB 검색]
-    C --> D[관련 문서 검색]
+    B --> D[ChromaDB 검색]
     D --> E[컨텍스트 생성]
     E --> F[LLM 응답 생성]
     F --> G[영어 → 한국어 번역]
