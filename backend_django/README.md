@@ -225,7 +225,7 @@ graph TB
 ```
 
 
-### 데이터 워크플로우
+### 채팅 워크플로우
 
 ```mermaid
 graph TD
@@ -236,6 +236,37 @@ graph TD
     F --> G[영어 → 한국어 번역]
     G --> H[최종 응답]
 ```
+
+### 모델 파인튜닝 워크플로우
+
+```mermaid
+graph TD
+    A[원본 데이터] --> D[RAG 기반 QA 페어 생성<br/>LLM + 검색된 컨텍스트]
+    D --> F[모델 선정<br/>Microsoft Phi-2]
+
+    F --> G[파인튜닝 학습]
+    G --> H[추론 성능 평가]
+    H --> I{추론 성능 만족?}
+    
+    I -->|No| J[하이퍼파라미터 조정]
+    J --> G
+    I -->|Yes| K[모델 허깅페이스로 배포]
+
+    %% 스타일 정의
+    classDef data fill:#e3f2fd,stroke:#1565c0,stroke-width:2px,color:#000
+    classDef model fill:#e8f5e8,stroke:#388e3c,stroke-width:2px,color:#000
+    classDef training fill:#fff3e0,stroke:#f57c00,stroke-width:2px,color:#000
+    classDef evaluation fill:#fce4ec,stroke:#c2185b,stroke-width:2px,color:#000
+    classDef decision fill:#ffebee,stroke:#d32f2f,stroke-width:2px,color:#000
+
+    %% 클래스 적용
+    class A,B,C,D,E data
+    class F,K model
+    class G,J training
+    class H evaluation
+    class I decision
+```
+
 
 ### 데이터베이스 모델
 
