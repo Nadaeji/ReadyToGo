@@ -289,9 +289,7 @@
 <td align="center" valign="middle">
   <img src="./img/inference_country_3.png" style="display: block; margin: 0 auto;" />
 </td>
-<td align="center" valign="middle">
-  <img src="./img/inference_country_4.png" style="display: block; margin: 0 auto;" />
-</td>
+<br>
 
 - message_content가 모델에 쿼리로 입력됨  
 - 우리가 선택한 국가와 주제에 대한 내용을 쿼리에 추가되도록 해주어 응답의 일관성 높여줌
@@ -313,6 +311,9 @@
 > 응답 끊김 문제 개선 결과
 <td align="center" valign="middle">
   <img src="./img/out_of_response_3.png" style="display: block; margin: 0 auto;" />
+</td>
+<td align="center" valign="middle">
+  <img src="./img/out_of_response_4.png" style="display: block; margin: 0 auto;" />
 </td>
 <br>
 
