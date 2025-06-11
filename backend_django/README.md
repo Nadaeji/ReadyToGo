@@ -240,17 +240,17 @@ graph TD
 ### 모델 파인튜닝 워크플로우
 
 ```mermaid
+
 graph TD
     A[원본 데이터] --> D[RAG 기반 QA 페어 생성<br/>LLM + 검색된 컨텍스트]
     D --> F[모델 선정<br/>Microsoft Phi-2]
-
     F --> G[파인튜닝 학습]
-    G --> H[추론 성능 평가]
+    G --> H[추론 테스트]
     H --> I{추론 성능 만족?}
-    
-    I -->|No| J[하이퍼파라미터 조정]
+    I --|Yes|--> K[모델 허깅페이스로 배포]
+    I --|No|--> J[하이퍼파라미터 조정]
     J --> G
-    I -->|Yes| K[모델 허깅페이스로 배포]
+    J --> H
 
     %% 스타일 정의
     classDef data fill:#e3f2fd,stroke:#1565c0,stroke-width:2px,color:#000
