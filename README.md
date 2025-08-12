@@ -176,6 +176,11 @@
 | 운영체제(OS)      | Ubuntu                              | EC2 인스턴스에서 사용하는 경량화된 리눅스 기반 운영체제        |
 | WSGI 서버         | Gunicorn                            | Django 앱을 실행하기 위한 고성능 WSGI 어플리케이션 서버     |
 
+
+---
+##  <img src="img/mascot.png" width="35" height="35" style="position: relative; top: 10px;" /> Vector DB 연동 구현 코드
+### [링크](https://drive.google.com/drive/folders/1x4YtqUxpzKpcdWeYF8IqviCOIop2R5U-?usp=drive_link)
+
 ---
 ##  <img src="img/mascot.png" width="35" height="35" style="position: relative; top: 10px;" /> 주요 기능
 | 기능        | 설명                                                    |
