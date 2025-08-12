@@ -6,30 +6,32 @@
 - 사용자들이 비자, 보험, 안전 정보 같은 어려운 문제 앞에서 헤매지 않도록 기술과 데이터를 통해 **가장 안전하고 정확한 길을 안내합니다.**  
 
 > **GitHub** 
-<table width="100%">
-  <thead>
-    <tr>
-      <td align="center">
-        <a href="https://github.com/Nadaeji">
-          <img src="https://github.com/Nadaeji.png" height="120" width="120" alt="jiyoon"/><br />
-          <strong>나지윤</strong>
-        </a>
-      </td>
-      <td align="center">
-        <a href="https://github.com/SOOSOO999">
-          <img src="https://github.com/SOOSOO999.png" height="120" width="120" alt="jungsoo"/><br />
-          <strong>배정수</strong>
-        </a>
-      </td>
-      <td align="center">
-        <a href="https://github.com/comet39">
-          <img src="https://github.com/comet39.png" height="120" width="120" alt="HyeSung"/><br />
-          <strong>이혜성</strong>
-        </a>
-      </td>
-    </tr>
-  </thead>
-</table>
+<div align="center">
+  <table width="100%">
+    <tbody>
+      <tr>
+        <td align="center" width="33%">
+          <a href="https://github.com/Nadaeji">
+            <img src="https://github.com/Nadaeji.png" width="120" height="120" alt="jiyoon"><br>
+            <strong>나지윤</strong>
+          </a>
+        </td>
+        <td align="center" width="33%">
+          <a href="https://github.com/SOOSOO999">
+            <img src="https://github.com/SOOSOO999.png" width="120" height="120" alt="jungsoo"><br>
+            <strong>배정수</strong>
+          </a>
+        </td>
+        <td align="center" width="33%">
+          <a href="https://github.com/comet39">
+            <img src="https://github.com/comet39.png" width="120" height="120" alt="HyeSung"><br>
+            <strong>이혜성</strong>
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 ---
 ##  <img src="img/mascot.png" width="35" height="35" style="position: relative; top: 10px;" /> 프로젝트 개요
@@ -70,19 +72,20 @@
 
 > **국제 통계가 말하는 "정보 장벽"**
 - **`정부 정책·비자 문제`**: 학생 유치의 중대한 장애 요인
-
-<table width="100%">
-  <tr>
-    <td align="center" valign="middle">
-      <img src="./img/obstacles_enrolling university_regulation,visa.png"  height="230"/><br />
-      <small>정부 정책 및 비자 문제 (51%)_2024.11.13</small>
-    </td>
-    <td align="center" valign="middle">
-      <img src="./img/obstacles_mobility_regulation,visa.png" height="230"/><br />
-      <small>정부 정책 및 비자 문제 (62%)_2025.05.08</small>
-    </td>
-  </tr>
-</table>
+<div align="center">
+  <table width="100%">
+    <tr>
+      <td align="center" valign="middle" width="50%">
+        <img src="./img/obstacles_enrolling%20university_regulation,visa.png" height="230"><br />
+        <sub>정부 정책 및 비자 문제 (51%)_2024.11.13</sub>
+      </td>
+      <td align="center" valign="middle" width="50%">
+        <img src="./img/obstacles_mobility_regulation,visa.png" height="230"><br />
+        <sub>정부 정책 및 비자 문제 (62%)_2025.05.08</sub>
+      </td>
+    </tr>
+  </table>
+</div>
 <p align="right">
   <sub>
     <a href="https://monitor.icef.com/2024/11/new-research-highlights-the-impact-of-policy-on-international-enrolments/?">
@@ -134,14 +137,16 @@
   - 대부분 `.pdf` (공식 대사관·기관 공지문)
   - 여행안전정보: 공공데이터포털 OpenAPI 활용
 - **저장 구조**: 국가_문서유형.pdf → 국가/유형 기반 태깅 저장
-<br>
-<p align="center">
-  <img src="img/map.png" width="900" alt="데이터 수집 국가 지도">
-</p>
-from PIL import Image, ImageOps
-img = Image.open("img/map.png")
-bordered = ImageOps.expand(img, border=2, fill="#d1d5db")
-bordered.save("img/map_bordered.png")
+<div align="center">
+  <table>
+    <tr>
+      <td align="center" valign="middle">
+        <img src="img/map.png" width="900" alt="데이터 수집 국가 지도"><br />
+        <small>데이터 수집 국가 지도</small>
+      </td>
+    </tr>
+  </table>
+</div>
 
 ---
 ##  <img src="img/mascot.png" width="35" height="35" style="position: relative; top: 10px;" /> 기술 스택
@@ -186,21 +191,31 @@ bordered.save("img/map_bordered.png")
 ---
 ##  <img src="img/mascot.png" width="35" height="35" style="position: relative; top: 10px;" /> 시스템 구성도
 ### 🪶 시스템 아키텍처
-<td align="center" valign="middle">
-  <img src="./img/system_architecture.png" style="display: block; margin: 0 auto;" />
-</td>
+
+<div align="center">
+  <table width="100%">
+    <tr><td>
+      <img src="./img/system_architecture.png" walt="시스템 아키텍처">
+    </td></tr>
+  </table>
+</div>
 
 ---
-### 🪶 채팅 워크플로우
-<td align="center" valign="middle">
-  <img src="./img/chat_workflow.png" style="display: block; margin: 0 auto;" />
-</td>
-
----
-### 🪶 모델 파인튜닝 워크플로우
-<td align="center" valign="middle">
-  <img src="./img/model_finetuning_workflow.png" style="display: block; margin: 0 auto;" />
-</td>
+### 🪶 워크플로우 (채팅 워크플로우 / 모델 파인튜닝 워크플로우)
+<div align="center">
+  <table width="100%">
+    <tr>
+      <td align="center" valign="middle" width="50%">
+        <img src="./img/chat_workflow.png" height="230" alt="채팅 워크플로우"><br />
+        <sub>채팅 워크플로우</sub>
+      </td>
+      <td align="center" valign="middle" width="50%">
+        <img src="./img/model_finetuning_workflow.png" height="230" alt="모델 파인튜닝 워크플로우"><br />
+        <sub>모델 파인튜닝 워크플로우</sub>
+      </td>
+    </tr>
+  </table>
+</div>
 
 ---
 ## <img src="img/mascot.png" width="35" height="35" style="position: relative; top: 10px;" /> 세션관리방식
@@ -213,45 +228,107 @@ bordered.save("img/map_bordered.png")
 
 ---
 ##  <img src="img/mascot.png" width="35" height="35" style="position: relative; top: 10px;" /> 요구사항 정의서
-<td align="center" valign="middle">
-  <img src="./img/requirement_statement.png" style="display: block; margin: 0 auto;" />
-</td>
+<div align="center">
+  <table>
+    <tr>
+      <td align="center" valign="middle">
+        <img src="./img/requirement_statement.png" width="900" alt="요구사항 정의서"><br />
+        <small>요구사항 정의서</small>
+      </td>
+    </tr>
+  </table>
+</div>
 
 ---
 ##  <img src="img/mascot.png" width="35" height="35" style="position: relative; top: 10px;" /> 화면설계서
-<td align="center" valign="middle">
-  <img src="./img/screen_design_document_1.png" style="display: block; margin: 0 auto;" />
-</td>
+<div align="center">
+  <table>
+    <tr>
+      <td align="center" valign="middle">
+        <img src="./img/screen_design_document_1.png" width="900" alt="화면설계서 항목"><br />
+        <small>화면설계서 항목</small>
+      </td>
+    </tr>
+  </table>
+</div>
 <br>
-<td align="center" valign="middle">
-  <img src="./img/screen_design_document_2.png" style="display: block; margin: 0 auto;" />
-</td>
+<div align="center">
+  <table>
+    <tr>
+      <td align="center" valign="middle">
+        <img src="./img/screen_design_document_2.png" width="900" alt="메인: 기본"><br />
+        <small>기본 페이지</small>
+      </td>
+    </tr>
+  </table>
+</div>
 <br>
-<td align="center" valign="middle">
-  <img src="./img/screen_design_document_3.png" style="display: block; margin: 0 auto;" />
-</td>
+<div align="center">
+  <table>
+    <tr>
+      <td align="center" valign="middle">
+        <img src="./img/screen_design_document_3.png" width="900" alt="메인: AI채팅"><br />
+        <small>AI채팅 페이지</small>
+      </td>
+    </tr>
+  </table>
+</div>
 <br>
-<td align="center" valign="middle">
-  <img src="./img/screen_design_document_4.png" style="display: block; margin: 0 auto;" />
-</td>
+<div align="center">
+  <table>
+    <tr>
+      <td align="center" valign="middle">
+        <img src="./img/screen_design_document_4.png" width="900" alt="메인: 환율"><br />
+        <small>환율 페이지</small>
+      </td>
+    </tr>
+  </table>
+</div>
 <br>
-<td align="center" valign="middle">
-  <img src="./img/screen_design_document_5.png" style="display: block; margin: 0 auto;" />
-</td>
+<div align="center">
+  <table>
+    <tr>
+      <td align="center" valign="middle">
+        <img src="./img/screen_design_document_5.png" width="900" alt="메인: 날씨"><br />
+        <small>날씨 페이지</small>
+      </td>
+    </tr>
+  </table>
+</div>
 <br>
-<td align="center" valign="middle">
-  <img src="./img/screen_design_document_6.png" style="display: block; margin: 0 auto;" />
-</td>
+<div align="center">
+  <table>
+    <tr>
+      <td align="center" valign="middle">
+        <img src="./img/screen_design_document_6.png" width="900" alt="메인: 항공권"><br />
+        <small>항공권 페이지</small>
+      </td>
+    </tr>
+  </table>
+</div>
 <br>
-<td align="center" valign="middle">
-  <img src="./img/screen_design_document_7.png" style="display: block; margin: 0 auto;" />
-</td>
+<div align="center">
+  <table>
+    <tr>
+      <td align="center" valign="middle">
+        <img src="./img/screen_design_document_7.png" width="900" alt="메인: 체크리스트"><br />
+        <small>체크리스트 페이지</small>
+      </td>
+    </tr>
+  </table>
+</div>
 
 ---
 ##  <img src="img/mascot.png" width="35" height="35" style="position: relative; top: 10px;" /> WBS
-<td align="center" valign="middle">
-  <img src="./img/WBS.png" style="display: block; margin: 0 auto;" />
-</td>
+<div align="center">
+  <table>
+    <tr>
+      <td align="center" valign="middle">
+        <img src="./img/WBS.png" width="900" alt="메인: 체크리스트"><br />
+      </td>
+    </tr>
+  </table>
+</div>
 
 ---
 ##  <img src="img/mascot.png" width="35" height="35" style="position: relative; top: 10px;" /> 테스트 계획 및 결과 보고서
@@ -273,14 +350,17 @@ bordered.save("img/map_bordered.png")
 
 ---
 ### 🪶 개선사항 및 조치
-> 응답 국가 불일치 문제 
-<td align="center" valign="middle">
-  <img src="./img/inference_country_1.png" style="display: block; margin: 0 auto;" />
-</td>
-<td align="center" valign="middle">
-  <img src="./img/inference_country_2.png" style="display: block; margin: 0 auto;" />
-</td>
-<br>
+> 응답 국가 불일치 문제
+<div align="center">
+  <table width="100%" cellspacing="0" cellpadding="0">
+    <tr><td align="center">
+      <img src="./img/inference_country_1.png" width="900" alt="">
+    </td></tr>
+    <tr><td align="center">
+      <img src="./img/inference_country_2.png" width="900" alt="">
+    </td></tr>
+  </table>
+</div>
 
 - 질문 시 나라가 명시되지 않으면 응답 정확도 떨어짐
 
@@ -288,36 +368,47 @@ bordered.save("img/map_bordered.png")
 <br>
 
 > 응답 국가 불일치 문제 개선 결과
-<td align="center" valign="middle">
-  <img src="./img/inference_country_3.png" style="display: block; margin: 0 auto;" />
-</td>
-<br>
+<div align="center">
+  <table>
+    <tr>
+      <td align="center" valign="middle">
+        <img src="./img/inference_country_3.png" width="900" alt="응답 국가 불일치 문제 개선 결과"><br />
+      </td>
+    </tr>
+  </table>
+</div>
 
 - message_content가 모델에 쿼리로 입력됨  
 - 우리가 선택한 국가와 주제에 대한 내용을 쿼리에 추가되도록 해주어 응답의 일관성 높여줌
 
 ---
 > 응답 끊김 문제
-<td align="center" valign="middle">
-  <img src="./img/out_of_response_1.png" style="display: block; margin: 0 auto;" />
-</td>
-<td align="center" valign="middle">
-  <img src="./img/out_of_response_2.png" style="display: block; margin: 0 auto;" />
-</td>
-<br>
+<div align="center">
+  <table width="100%" cellspacing="0" cellpadding="0">
+    <tr><td align="center">
+      <img src="./img/out_of_response_1.png" width="900" alt="">
+    </td></tr>
+    <tr><td align="center">
+      <img src="./img/out_of_response_2.png" width="900" alt="">
+    </td></tr>
+  </table>
+</div>
 
 - 약 20% 확률로 문장이 미완성인 채로 응답이 끝나는 문제 발생
 <br>
 <br>
 
 > 응답 끊김 문제 개선 결과
-<td align="center" valign="middle">
-  <img src="./img/out_of_response_3.png" style="display: block; margin: 0 auto;" />
-</td>
-<td align="center" valign="middle">
-  <img src="./img/out_of_response_4.png" style="display: block; margin: 0 auto;" />
-</td>
-<br>
+<div align="center">
+  <table width="100%" cellspacing="0" cellpadding="0">
+    <tr><td align="center">
+      <img src="./img/out_of_response_3.png" width="900" alt="">
+    </td></tr>
+    <tr><td align="center">
+      <img src="./img/out_of_response_4.png" width="900" alt="">
+    </td></tr>
+  </table>
+</div>
 
 - 마지막 문장부호, 그리고 미완성 응답일 시 자주 보이는 단어들을 확인하여 `응답을 3번까지 재시도` 하도록 코드 수정<br>  
 -> 20번의 테스트 동안 미완성 문장 나오지 않음
@@ -330,34 +421,43 @@ bordered.save("img/map_bordered.png")
 > - OpenAI GPT, Google Gemini, Phi-2 Fine-tuned 모델 지원  
 > - RAG 기반 정보 검색: ChromaDB를 활용한 문서 검색 및 컨텍스트 제공  
 > - 한국어 ↔ 영어 자동 번역
-<td align="center" valign="middle">
-  <img src="./img/result_1.png" style="display: block; margin: 0 auto;" />
-</td>
+<div align="center">
+  <table>
+    <tr>
+      <td align="center" valign="middle">
+        <img src="./img/result_1.png" width="900" alt="AI 채팅 시스템"><br />
+      </td>
+    </tr>
+  </table>
+</div>
 
 ### 🪶 실시간 정보
 > 날씨, 항공편, 환율 정보 제공
-<td align="center" valign="middle">
-  <img src="./img/result_2.png" style="display: block; margin: 0 auto;" />
-</td>
-<br>
-<td align="center" valign="middle">
-  <img src="./img/result_4.png" style="display: block; margin: 0 auto;" />
-</td>
-<br>
-<td align="center" valign="middle">
-  <img src="./img/result_5.png" style="display: block; margin: 0 auto;" />
-</td>
-
+<div align="center">
+  <table width="100%" cellspacing="0" cellpadding="0">
+    <tr><td align="center">
+      <img src="./img/result_2.png" width="900" alt="">
+    </td></tr>
+    <tr><td align="center">
+      <img src="./img/result_4.png" width="900" alt="">
+    </td></tr>
+    <tr><td align="center">
+      <img src="./img/result_5.png" width="900" alt="">
+  </table>
+</div>
 
 ### 🪶 체크리스트 시스템
 > 국가별 준비사항 관리
-<td align="center" valign="middle">
-  <img src="./img/result_3.png" style="display: block; margin: 0 auto;" />
-</td>
-<br>
-<td align="center" valign="middle">
-  <img src="./img/result_6.png" style="display: block; margin: 0 auto;" />
-</td>
+<div align="center">
+  <table width="100%" cellspacing="0" cellpadding="0">
+    <tr><td align="center">
+      <img src="./img/result_3.png" width="900" alt="">
+    </td></tr>
+    <tr><td align="center">
+      <img src="./img/result_6.png" width="900" alt="">
+    </td></tr>
+  </table>
+</div>
 
 ---
 ##  <img src="img/mascot.png" width="35" height="35" style="position: relative; top: 10px;" /> 사업적 가치
