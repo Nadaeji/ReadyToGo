@@ -357,10 +357,10 @@
 <div align="center">
   <table width="100%" cellspacing="0" cellpadding="0">
     <tr><td align="center">
-      <img src="./img/inference_country_1.png" width="900" alt="">
+      <img src="./img/inference_country_1.png" width="900" alt="응답 국가 불일치 문제1">
     </td></tr>
     <tr><td align="center">
-      <img src="./img/inference_country_2.png" width="900" alt="">
+      <img src="./img/inference_country_2.png" width="900" alt="응답 국가 불일치 문제2">
     </td></tr>
   </table>
 </div>
@@ -389,10 +389,10 @@
 <div align="center">
   <table width="100%" cellspacing="0" cellpadding="0">
     <tr><td align="center">
-      <img src="./img/out_of_response_1.png" width="900" alt="">
+      <img src="./img/out_of_response_1.png" width="900" alt="응답 끊김 문제1">
     </td></tr>
     <tr><td align="center">
-      <img src="./img/out_of_response_2.png" width="900" alt="">
+      <img src="./img/out_of_response_2.png" width="900" alt="응답 끊김 문제2">
     </td></tr>
   </table>
 </div>
@@ -405,10 +405,10 @@
 <div align="center">
   <table width="100%" cellspacing="0" cellpadding="0">
     <tr><td align="center">
-      <img src="./img/out_of_response_3.png" width="900" alt="">
+      <img src="./img/out_of_response_3.png" width="900" alt="응답 끊김 문제 개선 결과1">
     </td></tr>
     <tr><td align="center">
-      <img src="./img/out_of_response_4.png" width="900" alt="">
+      <img src="./img/out_of_response_4.png" width="900" alt="응답 끊김 문제 개선 결과2">
     </td></tr>
   </table>
 </div>
@@ -435,17 +435,17 @@
 </div>
 
 ### 🪶 실시간 정보
-> 날씨, 항공편, 환율 정보 제공
+> 환율, 날씨, 항공편 정보 제공
 <div align="center">
   <table width="100%" cellspacing="0" cellpadding="0">
     <tr><td align="center">
-      <img src="./img/result_2.png" width="900" alt="">
+      <img src="./img/result_5.png" width="900" alt="환율 실시간 정보">
     </td></tr>
     <tr><td align="center">
-      <img src="./img/result_4.png" width="900" alt="">
+      <img src="./img/result_2.png" width="900" alt="날씨 실시간 정보">
     </td></tr>
     <tr><td align="center">
-      <img src="./img/result_5.png" width="900" alt="">
+      <img src="./img/result_4.png" width="900" alt="항공편 실시간 정">
   </table>
 </div>
 
@@ -454,10 +454,10 @@
 <div align="center">
   <table width="100%" cellspacing="0" cellpadding="0">
     <tr><td align="center">
-      <img src="./img/result_3.png" width="900" alt="">
+      <img src="./img/result_3.png" width="900" alt="체크리스트1">
     </td></tr>
     <tr><td align="center">
-      <img src="./img/result_6.png" width="900" alt="">
+      <img src="./img/result_6.png" width="900" alt="체크리스트2">
     </td></tr>
   </table>
 </div>
