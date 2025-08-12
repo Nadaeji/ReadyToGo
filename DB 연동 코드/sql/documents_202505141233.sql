@@ -1,0 +1,118 @@
+INSERT INTO RTG_V2.documents (title,url,country,topic,source,created_at) VALUES
+	 ('미국 관광비자(B-2) 신청 가이드','https://example.com/united-states/visa/1','United States','visa','Embassy','2024-10-05 01:16:54'),
+	 ('미국 학생비자(F-1) 준비 체크리스트','https://example.com/united-states/visa/2','United States','visa','Embassy','2024-07-29 01:16:54'),
+	 ('미국 취업비자(H-1B) 신청 절차','https://example.com/united-states/visa/3','United States','visa','Immigration Department','2025-02-06 01:16:54'),
+	 ('미국 비자 인터뷰 예상 질문과 답변','https://example.com/united-states/visa/4','United States','visa','Immigration Department','2024-08-01 01:16:54'),
+	 ('ESTA 신청 방법 및 주의사항','https://example.com/united-states/visa/5','United States','visa','Embassy','2024-08-10 01:16:54'),
+	 ('캐나다 관광비자(TRV) 신청 방법','https://example.com/canada/visa/1','Canada','visa','Immigration Department','2024-07-01 01:16:54'),
+	 ('캐나다 학생비자 신청 절차','https://example.com/canada/visa/2','Canada','visa','Embassy','2025-02-26 01:16:54'),
+	 ('캐나다 워킹홀리데이 프로그램 가이드','https://example.com/canada/visa/3','Canada','visa','Embassy','2024-06-02 01:16:54'),
+	 ('eTA 신청 및 주의사항','https://example.com/canada/visa/4','Canada','visa','Embassy','2025-02-09 01:16:54'),
+	 ('캐나다 영주권 Express Entry 시스템','https://example.com/canada/visa/5','Canada','visa','Immigration Department','2025-02-10 01:16:54');
+INSERT INTO RTG_V2.documents (title,url,country,topic,source,created_at) VALUES
+	 ('일본 단기체류 비자 면제 프로그램','https://example.com/japan/visa/1','Japan','visa','Embassy','2025-02-20 01:16:54'),
+	 ('일본 취업비자 종류와 신청방법','https://example.com/japan/visa/2','Japan','visa','Immigration Department','2024-07-03 01:16:54'),
+	 ('일본 유학비자 신청 가이드','https://example.com/japan/visa/3','Japan','visa','Immigration Department','2024-11-22 01:16:54'),
+	 ('일본 워킹홀리데이 비자 안내','https://example.com/japan/visa/4','Japan','visa','Immigration Department','2024-12-11 01:16:54'),
+	 ('일본 경영관리비자 취득 절차','https://example.com/japan/visa/5','Japan','visa','Immigration Department','2024-11-27 01:16:54'),
+	 ('해외여행보험 가입 전 필수 체크사항','https://example.com/insurance/travel/1','Canada','insurance','Insurance Agency','2024-05-16 01:16:54'),
+	 ('여행자보험 보장내용 비교 가이드','https://example.com/insurance/travel/2','Indonesia','insurance','Insurance Agency','2024-10-06 01:16:54'),
+	 ('해외 의료비 청구 절차 안내','https://example.com/insurance/travel/3','Thailand','insurance','Insurance Agency','2024-06-24 01:16:54'),
+	 ('여행보험 면책사항 주의점','https://example.com/insurance/travel/4','Australia','insurance','Insurance Agency','2025-01-13 01:16:54'),
+	 ('장기체류자를 위한 여행보험 선택법','https://example.com/insurance/travel/5','Thailand','insurance','Insurance Agency','2025-01-09 01:16:54');
+INSERT INTO RTG_V2.documents (title,url,country,topic,source,created_at) VALUES
+	 ('유학생 건강보험 가입 가이드','https://example.com/insurance/health/1','Germany','insurance','Insurance Agency','2025-02-25 01:16:54'),
+	 ('해외 주재원 건강보험 선택 방법','https://example.com/insurance/health/2','Thailand','insurance','Insurance Agency','2024-10-29 01:16:54'),
+	 ('현지 의료보험 vs 한국 보험 비교','https://example.com/insurance/health/3','Vietnam','insurance','Insurance Agency','2024-09-27 01:16:54'),
+	 ('긴급의료보험 가입 절차','https://example.com/insurance/health/4','Japan','insurance','Insurance Agency','2024-11-28 01:16:54'),
+	 ('가족동반 시 건강보험 플랜','https://example.com/insurance/health/5','China','insurance','Insurance Agency','2025-02-14 01:16:54'),
+	 ('투자이민 프로그램 비교 분석','https://example.com/immigration/permanent/1','Australia','immigration','Immigration Department','2024-07-11 01:16:54'),
+	 ('기술이민 점수제 시스템 이해하기','https://example.com/immigration/permanent/2','China','immigration','Immigration Department','2024-10-04 01:16:54'),
+	 ('가족초청 이민 절차와 요건','https://example.com/immigration/permanent/3','Thailand','immigration','Immigration Department','2025-05-03 01:16:54'),
+	 ('난민 지위 신청 절차','https://example.com/immigration/permanent/4','Indonesia','immigration','Immigration Department','2025-01-13 01:16:54'),
+	 ('시민권 취득 요건과 절차','https://example.com/immigration/permanent/5','Indonesia','immigration','Immigration Department','2024-08-24 01:16:54');
+INSERT INTO RTG_V2.documents (title,url,country,topic,source,created_at) VALUES
+	 ('노동허가증 신청 절차','https://example.com/immigration/temporary/1','China','immigration','Immigration Department','2025-02-24 01:16:54'),
+	 ('학생비자에서 취업비자로 전환','https://example.com/immigration/temporary/2','Philippines','immigration','Immigration Department','2024-06-08 01:16:54'),
+	 ('배우자 동반비자 신청 방법','https://example.com/immigration/temporary/3','Thailand','immigration','Immigration Department','2025-01-16 01:16:54'),
+	 ('사업비자 취득 요건','https://example.com/immigration/temporary/4','Philippines','immigration','Immigration Department','2024-05-20 01:16:54'),
+	 ('종교비자 신청 가이드','https://example.com/immigration/temporary/5','Vietnam','immigration','Immigration Department','2024-05-20 01:16:54'),
+	 ('해외 안전여행 기본 수칙','https://example.com/safety/general/1','Thailand','safety','Government','2025-04-18 01:16:54'),
+	 ('긴급상황 시 대처방법','https://example.com/safety/general/2','Japan','safety','Government','2024-10-26 01:16:54'),
+	 ('현지 법규 및 문화 이해하기','https://example.com/safety/general/3','United States','safety','Government','2025-04-08 01:16:54'),
+	 ('여행경보 단계별 주의사항','https://example.com/safety/general/4','Vietnam','safety','Government','2024-08-15 01:16:54'),
+	 ('해외 안전정보 확인 방법','https://example.com/safety/general/5','China','safety','Government','2025-05-05 01:16:54');
+INSERT INTO RTG_V2.documents (title,url,country,topic,source,created_at) VALUES
+	 ('해외 여행 전 예방접종 안내','https://example.com/safety/health/1','Philippines','safety','Government','2024-07-22 01:16:54'),
+	 ('지역별 풍토병 예방법','https://example.com/safety/health/2','United States','safety','Government','2024-06-04 01:16:54'),
+	 ('의료 응급상황 대처 가이드','https://example.com/safety/health/3','Japan','safety','Government','2024-08-27 01:16:54'),
+	 ('여행자 건강 체크리스트','https://example.com/safety/health/4','Thailand','safety','Government','2025-03-23 01:16:54'),
+	 ('귀국 후 건강관리 방법','https://example.com/safety/health/5','Australia','safety','Government','2024-07-18 01:16:54'),
+	 ('Australia Insurance Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/australia_insurance_info.pdf','Australia','insurance','Government','2025-05-13 11:54:37'),
+	 ('China Immigration Regulations Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/china_immigration_regulations_info.pdf','China','immigration','Government','2025-05-13 11:54:37'),
+	 ('China Immigration Safety Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/china_immigration_safety_info.pdf','China','safety','Government','2025-05-13 11:54:37'),
+	 ('China Insurance Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/china_insurance_info.pdf','China','insurance','Government','2025-05-13 11:54:37'),
+	 ('China Visa Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/china_visa_info.pdf','China','visa','Government','2025-05-13 11:54:37');
+INSERT INTO RTG_V2.documents (title,url,country,topic,source,created_at) VALUES
+	 ('France Immigration Regulations Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/france_immigration_regulations_info.pdf','France','immigration','Government','2025-05-13 11:54:37'),
+	 ('France Immigration Safety Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/france_immigration_safety_info.pdf','France','safety','Government','2025-05-13 11:54:37'),
+	 ('France Insurance Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/france_insurance_info.pdf','France','insurance','Government','2025-05-13 11:54:37'),
+	 ('France Visa Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/france_visa_info.pdf','France','visa','Government','2025-05-13 11:54:37'),
+	 ('Germany China Immigration Safety Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/germany_china_immigration_safety_info.pdf','Germany','safety','Government','2025-05-13 11:54:37'),
+	 ('Germany Immigration Regulations Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/germany_immigration_regulations_info.pdf','Germany','immigration','Government','2025-05-13 11:54:37'),
+	 ('Germany Insurance Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/germany_insurance_info.pdf','Germany','insurance','Government','2025-05-13 11:54:37'),
+	 ('Germany Visa Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/germany_visa_info.pdf','Germany','visa','Government','2025-05-13 11:54:37'),
+	 ('Italy Immigration Regulations Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/italy_immigration_regulations_info.pdf','Italy','immigration','Government','2025-05-13 11:54:37'),
+	 ('Italy Visa Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/italy_visa_info.pdf','Italy','visa','Government','2025-05-13 11:54:37');
+INSERT INTO RTG_V2.documents (title,url,country,topic,source,created_at) VALUES
+	 ('UK Immigration Regulations Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/uk_immigration_regulations_info.pdf','United Kingdom','immigration','Government','2025-05-13 11:54:37'),
+	 ('America Insurance','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/america_insurance.pdf','America','insurance','Government','2025-05-13 11:54:37'),
+	 ('America Other','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/america_other.pdf','America','other','Government','2025-05-13 11:54:37'),
+	 ('America Visa','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/america_visa.pdf','America','visa','Government','2025-05-13 11:54:37'),
+	 ('Australia Immigration Regulations Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/australia_immigration_regulations_info.pdf','Australia','immigration','Government','2025-05-13 11:54:37'),
+	 ('Australia Immigration Safety Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/australia_immigration_safety_info.pdf','Australia','immigration','Government','2025-05-13 11:54:37'),
+	 ('Australia Insurance Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/australia_insurance_info.pdf','Australia','insurance','Government','2025-05-13 11:54:37'),
+	 ('Australia Visa Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/australia_visa_info.pdf','Australia','visa','Government','2025-05-13 11:54:37'),
+	 ('Austria Immigration Regulations Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/austria_immigration_regulations_info.pdf','Austria','immigration','Government','2025-05-13 11:54:37'),
+	 ('Austria Immigration Safety Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/austria_immigration_safety_info.pdf','Austria','immigration','Government','2025-05-13 11:54:37');
+INSERT INTO RTG_V2.documents (title,url,country,topic,source,created_at) VALUES
+	 ('Austria Insurance Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/austria_insurance_info.pdf','Austria','insurance','Government','2025-05-13 11:54:37'),
+	 ('Austria Visa Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/austria_visa_info.pdf','Austria','visa','Government','2025-05-13 11:54:37'),
+	 ('Canada Immigration Regulations Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/canada_immigration_regulations_info.pdf','Canada','immigration','Government','2025-05-13 11:54:37'),
+	 ('Canada Immigration Safety Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/canada_immigration_safety_info.pdf','Canada','immigration','Government','2025-05-13 11:54:37'),
+	 ('Canada Insurance Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/canada_insurance_info.pdf','Canada','insurance','Government','2025-05-13 11:54:37'),
+	 ('Canada Visa Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/canada_visa_info.pdf','Canada','visa','Government','2025-05-13 11:54:37'),
+	 ('China Immigration Regulations Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/china_immigration_regulations_info.pdf','China','immigration','Government','2025-05-13 11:54:37'),
+	 ('China Immigration Safety Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/china_immigration_safety_info.pdf','China','immigration','Government','2025-05-13 11:54:37'),
+	 ('China Insurance Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/china_insurance_info.pdf','China','insurance','Government','2025-05-13 11:54:37'),
+	 ('China Visa Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/china_visa_info.pdf','China','visa','Government','2025-05-13 11:54:37');
+INSERT INTO RTG_V2.documents (title,url,country,topic,source,created_at) VALUES
+	 ('France Immigration Regulations Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/france_immigration_regulations_info.pdf','France','immigration','Government','2025-05-13 11:54:37'),
+	 ('France Immigration Safety Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/france_immigration_safety_info.pdf','France','immigration','Government','2025-05-13 11:54:37'),
+	 ('France Insurance Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/france_insurance_info.pdf','France','insurance','Government','2025-05-13 11:54:37'),
+	 ('France Visa Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/france_visa_info.pdf','France','visa','Government','2025-05-13 11:54:37'),
+	 ('Germany China Immigration Safety Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/germany_china_immigration_safety_info.pdf','Germany','immigration','Government','2025-05-13 11:54:37'),
+	 ('Germany Immigration Regulations Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/germany_immigration_regulations_info.pdf','Germany','immigration','Government','2025-05-13 11:54:37'),
+	 ('Germany Immigration Safety Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/germany_immigration_safety_info.pdf','Germany','immigration','Government','2025-05-13 11:54:37'),
+	 ('Germany Insurance Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/germany_insurance_info.pdf','Germany','insurance','Government','2025-05-13 11:54:37'),
+	 ('Germany Visa Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/germany_visa_info.pdf','Germany','visa','Government','2025-05-13 11:54:37'),
+	 ('Italy Immigration Regulations Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/italy_immigration_regulations_info.pdf','Italy','immigration','Government','2025-05-13 11:54:37');
+INSERT INTO RTG_V2.documents (title,url,country,topic,source,created_at) VALUES
+	 ('Italy Immigration Safety Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/italy_immigration_safety_info.pdf','Italy','immigration','Government','2025-05-13 11:54:37'),
+	 ('Italy Insurance Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/italy_insurance_info.pdf','Italy','insurance','Government','2025-05-13 11:54:37'),
+	 ('Italy Visa Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/italy_visa_info.pdf','Italy','visa','Government','2025-05-13 11:54:37'),
+	 ('Japan Immigration Regulations Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/japan_immigration_regulations_info.pdf','Japan','immigration','Government','2025-05-13 11:54:37'),
+	 ('Japan Immigration Safety Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/japan_immigration_safety_info.pdf','Japan','immigration','Government','2025-05-13 11:54:37'),
+	 ('Japan Insurance Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/japan_incurance_info.pdf','Japan','insurance','Government','2025-05-13 11:54:37'),
+	 ('Japan Visa Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/japan_visa_info.pdf','Japan','visa','Government','2025-05-13 11:54:37'),
+	 ('New Zealand Immigration Safety Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/newzealand_immigration_safety_info.pdf','New Zealand','immigration','Government','2025-05-13 11:54:37'),
+	 ('Philippines Immigration Safety Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/philippines_immigration_safety_info.pdf','Philippines','immigration','Government','2025-05-13 11:54:37'),
+	 ('Singapore Immigration Safety Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/sinagpore_immigration_safety_info.pdf','Singapore','immigration','Government','2025-05-13 11:54:37');
+INSERT INTO RTG_V2.documents (title,url,country,topic,source,created_at) VALUES
+	 ('Singapore Immigration Regulations Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/singapore_immigration_regulations_info.pdf','Singapore','immigration','Government','2025-05-13 11:54:37'),
+	 ('Singapore Insurance Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/singapore_insurance_info.pdf','Singapore','insurance','Government','2025-05-13 11:54:37'),
+	 ('Singapore Visa Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/singapore_visa_info.pdf','Singapore','visa','Government','2025-05-13 11:54:37'),
+	 ('UK Immigration Regulations Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/uk_immigration_regulations_info.pdf','UK','immigration','Government','2025-05-13 11:54:37'),
+	 ('UK Immigration Safety Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/uk_immigration_safety_info.pdf','UK','immigration','Government','2025-05-13 11:54:37'),
+	 ('UK Insurance Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/uk_insurance_info.pdf','UK','insurance','Government','2025-05-13 11:54:37'),
+	 ('UK Visa Info','/Users/comet39/SKN_PJT/SKN_3rd_PJT/backend2/data/pdfs/uk_visa_info.pdf','UK','visa','Government','2025-05-13 11:54:37');
