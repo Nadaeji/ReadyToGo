@@ -10,19 +10,19 @@
       <tr>
         <td align="center" width="33%">
           <a href="https://github.com/Nadaeji">
-            <img src="https://github.com/Nadaeji.png" width="120" height="120" alt="jiyoon"><br>
+            <img src="https://github.com/Nadaeji.png" width="180" height="180" alt="jiyoon"><br>
             <strong>나지윤</strong>
           </a>
         </td>
         <td align="center" width="33%">
           <a href="https://github.com/SOOSOO999">
-            <img src="https://github.com/SOOSOO999.png" width="120" height="120" alt="jungsoo"><br>
+            <img src="https://github.com/SOOSOO999.png" width="180" height="180" alt="jungsoo"><br>
             <strong>배정수</strong>
           </a>
         </td>
         <td align="center" width="33%">
           <a href="https://github.com/comet39">
-            <img src="https://github.com/comet39.png" width="120" height="120" alt="HyeSung"><br>
+            <img src="https://github.com/comet39.png" width="180" height="180" alt="HyeSung"><br>
             <strong>이혜성</strong>
           </a>
         </td>
