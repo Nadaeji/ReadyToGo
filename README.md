@@ -32,7 +32,6 @@
 </table>
 
 ---
----
 ##  <img src="img/mascot.png" width="35" height="35" style="position: relative; top: 10px;" /> 프로젝트 개요
 
 ### 🪶 프로젝트명 
@@ -108,8 +107,8 @@
   **RAG 기반 문서 검색 + QA 쌍 파인튜닝을 통해 질문에 대한 맥락 기반 응답 정확도를 높이는 모델** 자체 구축
 - 이를 통해 사용자는 단순 요약이나 일반 정보가 아닌,  
   **공식 문서 기반의 맞춤형 정답**에 가까운 정보를 얻을 수 있음
----
 
+---
 ### 🪶 목표  
 > **“검색이 아닌 질문”으로 정보를 얻는 환경 구축**  
 - 문서를 직접 찾고 해석하던 방식 → **자연어 질문 + 자동 요약 응답**으로 전환
@@ -129,15 +128,15 @@
 > "**여행·이민의 길잡이 AI 플랫폼**을 목표"로 함
 
 ---
----
 ##  <img src="img/mascot.png" width="35" height="35" style="position: relative; top: 10px;" /> 데이터 수집
 - **카테고리**: 비자 / 보험 / 국가별 여행 안전정보 / 입국절차·규정
 - **형태**:
   - 대부분 `.pdf` (공식 대사관·기관 공지문)
   - 여행안전정보: 공공데이터포털 OpenAPI 활용
 - **저장 구조**: 국가_문서유형.pdf → 국가/유형 기반 태깅 저장
-<img src="./map.png">
+<img src="img/map.png">
 
+---
 ##  <img src="img/mascot.png" width="35" height="35" style="position: relative; top: 10px;" /> 기술 스택
 ### 🪶 Backend
 
@@ -168,7 +167,6 @@
 | WSGI 서버         | Gunicorn                            | Django 앱을 실행하기 위한 고성능 WSGI 어플리케이션 서버     |
 
 ---
----
 ##  <img src="img/mascot.png" width="35" height="35" style="position: relative; top: 10px;" /> 주요 기능
 | 기능        | 설명                                                    |
 | ---------- | ------------------------------------------------------- |
@@ -177,9 +175,8 @@
 | 다국어 지원 | 한국어 ↔ 영어 자동 번역                                    |
 | 실시간 정보 | 환율, 날씨, 항공료 정보 제공                               |
 | 체크리스트 시스템 | 국가별 준비사항 관리                                 |
----
----
 
+---
 ##  <img src="img/mascot.png" width="35" height="35" style="position: relative; top: 10px;" /> 시스템 구성도
 ### 🪶 시스템 아키텍처
 <td align="center" valign="middle">
@@ -199,8 +196,6 @@
 </td>
 
 ---
----
-
 ## <img src="img/mascot.png" width="35" height="35" style="position: relative; top: 10px;" /> 세션관리방식
 | 항목       | 방식 / 고려사항 | 설명 |
 |-----------|------------------|------|
@@ -208,17 +203,14 @@
 | 문제점 ① | 새로고침 시 세션 단절 | 브라우저 새로고침 시 session_id 초기화 → 대화 유지 불가 |
 | 문제점 ② | 기기 간 대화 연속성 없음 | 로그인 기능이 없기 때문에 같은 사용자가 다른 디바이스에서 대화를 이어갈 수 없음 |
 | 개선 방향 | 로그인 시스템 + WebSocket 고려 | 세션 유지와 동기화 기능 강화를 위해 사용자 인증 시스템 및 실시간 연결(WebSocket) 기술 도입 예정 |
----
----
 
+---
 ##  <img src="img/mascot.png" width="35" height="35" style="position: relative; top: 10px;" /> 요구사항 정의서
 <td align="center" valign="middle">
   <img src="./img/requirement_statement.png" style="display: block; margin: 0 auto;" />
 </td>
 
 ---
----
-
 ##  <img src="img/mascot.png" width="35" height="35" style="position: relative; top: 10px;" /> 화면설계서
 <td align="center" valign="middle">
   <img src="./img/screen_design_document_1.png" style="display: block; margin: 0 auto;" />
@@ -249,16 +241,12 @@
 </td>
 
 ---
----
-
 ##  <img src="img/mascot.png" width="35" height="35" style="position: relative; top: 10px;" /> WBS
 <td align="center" valign="middle">
   <img src="./img/WBS.png" style="display: block; margin: 0 auto;" />
 </td>
 
 ---
----
-
 ##  <img src="img/mascot.png" width="35" height="35" style="position: relative; top: 10px;" /> 테스트 계획 및 결과 보고서
 
 ### 🪶 테스트 항목 및 시나리오
@@ -328,8 +316,6 @@
 -> 20번의 테스트 동안 미완성 문장 나오지 않음
 
 ---
----
-
 ##  <img src="img/mascot.png" width="35" height="35" style="position: relative; top: 10px;" /> 수행결과 (테스트/시연 페이지)
 <td align="center" valign="middle">
 
@@ -367,8 +353,6 @@
 </td>
 
 ---
----
-
 ##  <img src="img/mascot.png" width="35" height="35" style="position: relative; top: 10px;" /> 사업적 가치
 ### 🪶 SWOT 분석
 | 구분 | 내용 |
@@ -410,7 +394,6 @@
 → **공공기관, 교육기관, 글로벌 여행/이민 플랫폼과의 제휴**에서도 강력한 사업적 가치를 가짐을 입증
 
 ---
-
 ##  <img src="img/mascot.png" width="35" height="35" style="position: relative; top: 10px;" /> 한 줄 회고
 🪶 나지윤 
 > "기획자가 되고 싶다는 목표를 품고 시작한 이번 프로젝트는 단순한 과제 이상이었습니다.
