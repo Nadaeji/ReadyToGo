@@ -1,5 +1,3 @@
-<p align="right"><strong>SKN11-4th-6Team</strong></p>
-
 # **Ready To Go**
 ##  <img src="img/mascot.png" width="35" height="35" style="position: relative; top: 10px;" /> 팀소개
 > **팀명: Wayfinder**    
