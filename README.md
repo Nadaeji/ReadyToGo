@@ -139,7 +139,7 @@
   <table>
     <tr>
       <td align="center" valign="middle">
-        <img src="img/map.png" width="900" alt="데이터 수집 국가 지도"><br />
+        <img src="./img/map.png" width="900" alt="데이터 수집 국가 지도"><br />
         <small>데이터 수집 국가 지도</small>
       </td>
     </tr>
