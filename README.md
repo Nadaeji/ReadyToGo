@@ -130,6 +130,13 @@
 
 ---
 ---
+##  <img src="img/mascot.png" width="35" height="35" style="position: relative; top: 10px;" /> 데이터 수집
+- **카테고리**: 비자 / 보험 / 국가별 여행 안전정보 / 입국절차·규정
+- **형태**:
+  - 대부분 `.pdf` (공식 대사관·기관 공지문)
+  - 여행안전정보: 공공데이터포털 OpenAPI 활용
+- **저장 구조**: 국가_문서유형.pdf → 국가/유형 기반 태깅 저장
+<img src="./map.png">
 
 ##  <img src="img/mascot.png" width="35" height="35" style="position: relative; top: 10px;" /> 기술 스택
 ### 🪶 Backend
