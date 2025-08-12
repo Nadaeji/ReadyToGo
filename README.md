@@ -53,11 +53,11 @@
   <tr>
     <td align="center" valign="middle" width="50%">
       <img src="./img/departures_2000-2023.png" height="230"/><br />
-      <small>출국자 (2014~2023)</small>
+      <small>출국자 (2000~2023)</small>
     </td>
     <td align="center" valign="middle" width="50%">
       <img src="./img/departures_2014-2023.png" height="150"/><br />
-      <small>출국자 (2000~2023)</small>
+      <small>출국자 (2014~2023)</small>
     </td>
   </tr>
 </table>
@@ -179,7 +179,7 @@
 
 ---
 ##  <img src="img/mascot.png" width="35" height="35" style="position: relative; top: 10px;" /> Vector DB 연동 구현 코드
-### [링크](https://drive.google.com/drive/folders/1x4YtqUxpzKpcdWeYF8IqviCOIop2R5U-?usp=drive_link)
+### [구글 드라이브 링크](https://drive.google.com/drive/folders/1x4YtqUxpzKpcdWeYF8IqviCOIop2R5U-?usp=drive_link)
 
 ---
 ##  <img src="img/mascot.png" width="35" height="35" style="position: relative; top: 10px;" /> 주요 기능
