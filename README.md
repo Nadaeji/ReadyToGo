@@ -5,30 +5,20 @@
 
 > **GitHub** 
 <div align="center">
-  <table width="100%">
-    <tbody>
-      <tr>
-        <td align="center" width="33%">
-          <a href="https://github.com/Nadaeji">
-            <img src="https://github.com/Nadaeji.png" width="180" height="180" alt="jiyoon"><br>
-            <strong>나지윤</strong>
-          </a>
-        </td>
-        <td align="center" width="33%">
-          <a href="https://github.com/SOOSOO999">
-            <img src="https://github.com/SOOSOO999.png" width="180" height="180" alt="jungsoo"><br>
-            <strong>배정수</strong>
-          </a>
-        </td>
-        <td align="center" width="33%">
-          <a href="https://github.com/comet39">
-            <img src="https://github.com/comet39.png" width="180" height="180" alt="HyeSung"><br>
-            <strong>이혜성</strong>
-          </a>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<table width="80%" cellspacing="0" cellpadding="12" border="0">
+  <tbody>
+    <tr>
+      <td align="center" width="25%"><img src="https://github.com/Nadaeji.png" width="180" height="180" alt="나지윤"></td>
+      <td align="center" width="25%"><img src="https://github.com/SOOSOO999.png" width="180" height="180" alt="배정수"></td>
+      <td align="center" width="25%"><img src="https://github.com/comet39.png" width="180" height="180" alt="이혜성"></td>
+    </tr>
+    <tr>
+      <td align="center"><a href="https://github.com/Nadaeji"><strong>나지윤</strong></a></td>
+      <td align="center"><a href="https://github.com/SOOSOO999"><strong>배정수</strong></a></td>
+      <td align="center"><a href="https://github.com/comet39"><strong>이혜성</strong></a></td>
+    </tr>
+  </tbody>
+</table>
 </div>
 
 ---
